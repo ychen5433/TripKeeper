@@ -19,9 +19,27 @@ class ViewController: UIViewController {
         menuBtn.action = #selector(SWRevealViewController.revealToggle(_:))
         
         view.addGestureRecognizer(revealViewController().panGestureRecognizer())
+        googleDistanceMatrixAPICall()
         
     }
-   
+    func googleDistanceMatrixAPICall(){
+        let url: NSString = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=charlotte,nc&destinations=New York, NY&key=AIzaSyCTW7N5eDPF5Q_ZA6jouU0pqk_D7tk-b8I" as NSString
+        let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
+        if let searchURL = NSURL(string: urlStr as String){
+            print(searchURL)
+            if let data = try? Data(contentsOf: searchURL as URL){
+                let json = JSON(data: data)
+                
+                print(json)
+                for row in json["rows"].arrayValue{
+                    for element in row["elements"].arrayValue{
+                        print(element["distance"]["text"])
+                        print(element["duration"]["text"])
+                    }
+                }
+            }
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

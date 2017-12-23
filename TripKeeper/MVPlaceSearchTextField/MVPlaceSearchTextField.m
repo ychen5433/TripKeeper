@@ -57,9 +57,9 @@
  possibleCompletionsForString:(NSString *)string
             completionHandler:(void (^)(NSArray *))handler
 {
-    NSLog(@"........___________.........");
+//    NSLog(@"........___________.........");
     NSString *aQuery=textField.text;
-    NSLog(aQuery);
+//    NSLog(aQuery);
     [NSObject cancelPreviousPerformRequestsWithTarget:_placesClient selector:@selector(autocompleteQuery:bounds:filter:callback:) object:self];
     
     if(aQuery.length>0){
@@ -121,8 +121,8 @@
     }else{
         cell.contentView.backgroundColor=[UIColor whiteColor];
     }
-    NSLog(@":)))))))))))):)))))))))))");
-    NSLog(@"%@",cell.textLabel.text);
+//    NSLog(@":)))))))))))):)))))))))))");
+//    NSLog(@"%@",cell.textLabel.text);
     return YES;
 }
 
