@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var menuBtn: UIBarButtonItem!
     @IBOutlet weak var originTextField: MVPlaceSearchTextField!
     @IBOutlet weak var destinationTextField: MVPlaceSearchTextField!
+    var destinations = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

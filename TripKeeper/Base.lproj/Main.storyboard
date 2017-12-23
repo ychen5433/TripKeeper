@@ -37,9 +37,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="backGround" translatesAutoresizingMaskIntoConstraints="NO" id="X2C-7H-OG0">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backGround" translatesAutoresizingMaskIntoConstraints="NO" id="X2C-7H-OG0">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="From" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IDi-fp-Ez4">
                                 <rect key="frame" x="16" y="123" width="40" height="21"/>
@@ -116,6 +115,12 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="X2C-7H-OG0" firstAttribute="leading" secondItem="7Nr-Ns-Io5" secondAttribute="leading" id="0xs-0L-YmE"/>
+                            <constraint firstAttribute="trailing" secondItem="X2C-7H-OG0" secondAttribute="trailing" id="URY-pT-ejN"/>
+                            <constraint firstItem="X2C-7H-OG0" firstAttribute="bottom" secondItem="UP4-Da-fT1" secondAttribute="bottom" id="l0a-ft-gm2"/>
+                            <constraint firstItem="X2C-7H-OG0" firstAttribute="top" secondItem="UP4-Da-fT1" secondAttribute="top" id="z3V-b0-Wad"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="UP4-Da-fT1"/>
                     </view>
                     <navigationItem key="navigationItem" id="ZFk-dx-LAU">
