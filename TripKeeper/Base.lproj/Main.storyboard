@@ -101,10 +101,13 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.32852089410000002" blue="0.57488495110000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <state key="normal" title="Add Trip">
+                                <state key="normal" title="Add Trip(s)">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="titleShadowColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="addTrips:" destination="5On-aq-YyT" eventType="touchUpInside" id="xZN-XJ-qzB"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="geq-wj-ALd">
                                 <rect key="frame" x="343" y="180" width="25" height="25"/>
@@ -112,6 +115,9 @@
                                 <state key="normal" backgroundImage="add">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="addDestinations:" destination="5On-aq-YyT" eventType="touchUpInside" id="Kk7-ym-AlU"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -184,7 +190,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="add" width="175" height="169"/>
+        <image name="add" width="88" height="84"/>
         <image name="backGround" width="313" height="313"/>
         <image name="menuBar" width="25" height="25"/>
     </resources>

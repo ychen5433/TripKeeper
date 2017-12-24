@@ -13,7 +13,7 @@ import CoreData
 
 extension Trip {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Trip> {
+    @nonobjc public class func createFetchRequest() -> NSFetchRequest<Trip> {
         return NSFetchRequest<Trip>(entityName: "Trip")
     }
 
