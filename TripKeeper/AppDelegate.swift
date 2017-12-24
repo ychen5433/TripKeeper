@@ -20,6 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let strApiKey = "AIzaSyAaEHnxyKlb9DpnSKA5pi334vDoZCbgGl0"
         GMSPlacesClient.provideAPIKey(strApiKey)
         
+//        let controller = self.window!.rootViewController as! ViewController
+//        let context = self.persistentContainer.viewContext
+//        controller.managedObjectContext = self.persistentContainer.viewContext
+        
         return true
     }
 

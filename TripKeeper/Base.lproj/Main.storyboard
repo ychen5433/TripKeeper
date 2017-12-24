@@ -69,7 +69,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TSc-yx-Cak">
-                                <rect key="frame" x="16" y="288" width="36" height="21"/>
+                                <rect key="frame" x="16" y="284" width="36" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.32852089410000002" blue="0.57488495110000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -119,6 +119,14 @@
                                     <action selector="addDestinations:" destination="5On-aq-YyT" eventType="touchUpInside" id="Kk7-ym-AlU"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S69-qO-srF">
+                                <rect key="frame" x="164" y="228" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="fetch"/>
+                                <connections>
+                                    <action selector="fetchCoreData:" destination="5On-aq-YyT" eventType="touchUpInside" id="9G8-I1-gal"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -133,8 +141,10 @@
                         <barButtonItem key="leftBarButtonItem" image="menuBar" id="gk7-Q8-pg2"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="dateTextField" destination="jHb-n9-UhM" id="o9j-YF-zGX"/>
                         <outlet property="destinationTextField" destination="81J-jm-68I" id="1IU-GJ-Oer"/>
                         <outlet property="menuBtn" destination="gk7-Q8-pg2" id="pVb-um-CBD"/>
+                        <outlet property="noteTextView" destination="5Be-Jh-sj9" id="lQr-OZ-qbl"/>
                         <outlet property="originTextField" destination="Z2V-tD-tiU" id="lL2-yF-MtP"/>
                     </connections>
                 </viewController>
