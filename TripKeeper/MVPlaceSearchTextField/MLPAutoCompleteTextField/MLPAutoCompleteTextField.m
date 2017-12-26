@@ -895,12 +895,11 @@ withAutoCompleteString:(NSString *)string
 - (void)main
 {
     @autoreleasepool {
-        
+    
         if (self.isCancelled){
             return;
         }
-        
-        
+
         if([self.dataSource respondsToSelector:@selector(autoCompleteTextField:possibleCompletionsForString:completionHandler:)]){
             __weak MLPAutoCompleteFetchOperation *operation = self;
             sentinelSemaphore = dispatch_semaphore_create(0);

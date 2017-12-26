@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var menuBtn: UIBarButtonItem!
     @IBOutlet weak var originTextField: MVPlaceSearchTextField!
     @IBOutlet weak var destinationTextField: MVPlaceSearchTextField!
+    var originString = ""
     var destinations = [String]()
     var trips = [Trip]()
     var selectedDate = Date()
@@ -21,7 +22,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBAction func fetchCoreData(_ sender: UIButton) {
         
         let request = Trip.createFetchRequest()
-        let sort = NSSortDescriptor(key: "origin", ascending: false)
+        let sort = NSSortDescriptor(key: "date", ascending: false)
         request.sortDescriptors = [sort]
         
         do {
@@ -65,6 +66,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if (destinationTextField.text! == "" && destinations.isEmpty) || originTextField.text! == ""{
             popAlert(message: "Please make sure to enter origin and destination")
         }else{
+            originString = originTextField.text!
             performSelector(inBackground: #selector(getMilesFromGoogleAPI), with: nil)
 //            originTextField.text! = ""
 //            destinationTextField.text! = ""
@@ -103,16 +105,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func getMilesFromGoogleAPI(){
-        if destinationTextField.text! != ""{
-            destinations.append(destinationTextField.text!)
+        DispatchQueue.main.async {
+            if self.destinationTextField.text! != ""{
+                self.destinations.append(self.destinationTextField.text!)
+            }
         }
-        destinations.insert(originTextField.text!, at:0)
         
+        self.destinations.insert(self.originString, at:0)
         for i in 0 ..< (destinations.count - 1) {
             let url: NSString = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=\(destinations[i])&destinations=\(destinations[i+1])&key=\(googleDistanceMatrixAPI)" as NSString
             let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
             let managedContext = appDelegate?.persistentContainer.viewContext
             let trip = Trip(context: managedContext!)
+            
             if let searchURL = NSURL(string: urlStr as String){
                 if let data = try? Data(contentsOf: searchURL as URL){
                     let jsonGoogleData = JSON(data: data)
@@ -120,12 +125,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     DispatchQueue.main.async {[unowned self] in
                         for row in jsonGoogleData["rows"].arrayValue{
                             for element in row["elements"].arrayValue{
+                                if element["status"].stringValue == "OK"{
 //                                print(element["distance"]["text"].doubleValue)
 //                                print(element["duration"]["text"])
-                                trip.origin = self.destinations[i]
-                                trip.destination = self.destinations[i+1]
-                                trip.date = self.selectedDate as NSDate
-                                trip.mileage = element["distance"]["value"].doubleValue
+                                    trip.origin = self.destinations[i]
+                                    trip.destination = self.destinations[i+1]
+                                    trip.date = self.selectedDate as NSDate
+                                    trip.mileage = element["distance"]["value"].doubleValue
+                                }else{
+                                    self.popAlert(message: "Please enter valide locations")
+                                }
                             }
                         }
                         do{

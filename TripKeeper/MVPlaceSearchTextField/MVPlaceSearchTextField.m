@@ -58,15 +58,17 @@
             completionHandler:(void (^)(NSArray *))handler
 {
 //    NSLog(@"........___________.........");
-    NSString *aQuery=textField.text;
+//    NSString *aQuery=textField.text;
 //    NSLog(aQuery);
+    __block NSString *aQuery;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        aQuery = textField.text;
+    });
     [NSObject cancelPreviousPerformRequestsWithTarget:_placesClient selector:@selector(autocompleteQuery:bounds:filter:callback:) object:self];
     
     if(aQuery.length>0){
         GMSAutocompleteFilter *filter = [[GMSAutocompleteFilter alloc] init];
         filter.type = kGMSPlacesAutocompleteTypeFilterNoFilter;
-        
-        
         
         [_placesClient autocompleteQuery:aQuery
                                   bounds:nil
