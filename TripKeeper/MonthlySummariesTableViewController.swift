@@ -1,22 +1,18 @@
 //
-//  MenuTableViewController.swift
+//  MonthlySummariesTableViewController.swift
 //  TripKeeper
 //
-//  Created by PYC on 12/22/17.
+//  Created by PYC on 12/28/17.
 //  Copyright © 2017 PYC. All rights reserved.
 //
 
 import UIKit
 
-class MenuTableViewController: UITableViewController {
+class MonthlySummariesTableViewController: UITableViewController {
     
-    var sectionTitles = [String]()
-    var rowContents = [[String]]()
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        sectionTitles = ["Report","Setting"]
-        rowContents = [["Monthly Summaries","YTD","Pick Your Dates"],["Update Your Email"]]
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -33,33 +29,24 @@ class MenuTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return rowContents.count
+        return 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return rowContents[section].count
+        return 0
     }
 
-    
+    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "menuCell", for: indexPath) 
-        cell.textLabel?.text = rowContents[indexPath.section][indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
         // Configure the cell...
 
         return cell
     }
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView.cellForRow(at: indexPath)?.textLabel?.text == "Monthly Summaries"{
-            let vc = storyboard?.instantiateViewController(withIdentifier: "MonthlySummariesTableViewController") as! MonthlySummariesTableViewController
-//            navigationController?.pushViewController(vc, animated: true)
-            present(vc, animated: true)
-        }
-    }
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionTitles[section]
-    }
+    */
+
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

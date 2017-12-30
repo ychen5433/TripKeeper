@@ -31,6 +31,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             for trip in trips{
                 print(trip.origin)
                 print(trip.destination)
+                //print(trip.date)
                 print("done one trip")
             }
 //            tableView.reloadData()
