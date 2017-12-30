@@ -22,7 +22,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBAction func fetchCoreData(_ sender: UIButton) {
         
         let request = Trip.createFetchRequest()
-        let sort = NSSortDescriptor(key: "date", ascending: false)
+        let sort = NSSortDescriptor(key: "date", ascending: true)
         request.sortDescriptors = [sort]
         
         do {
@@ -31,6 +31,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             for trip in trips{
                 print(trip.origin)
                 print(trip.destination)
+                print(trip.mileage)
                 print("done one trip")
             }
 //            tableView.reloadData()
@@ -127,7 +128,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                     trip.origin = self.destinations[i]
                                     trip.destination = self.destinations[i+1]
                                     trip.date = self.selectedDate as NSDate
-                                    trip.mileage = element["distance"]["value"].doubleValue
+                                    trip.mileage = round(element["distance"]["value"].doubleValue/1609.3226 * 100)/100
                                 }else{
                                     self.popAlert(message: "Please enter valide locations")
                                 }
