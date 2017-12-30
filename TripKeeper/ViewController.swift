@@ -67,6 +67,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
             popAlert(message: "Please make sure to enter origin and destination")
         }else{
             originString = originTextField.text!
+//            if self.destinationTextField.text! != ""{
+//                self.destinations.append(self.destinationTextField.text!)
+//            }
+            destinations.append(destinationTextField.text!)
+            destinations.insert(self.originString, at:0)
             performSelector(inBackground: #selector(getMilesFromGoogleAPI), with: nil)
 //            originTextField.text! = ""
 //            destinationTextField.text! = ""
@@ -83,7 +88,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
     @IBAction func pickDate(_ sender: UITextField) {
         let datePickerView = UIDatePicker()
         datePickerView.datePickerMode = UIDatePickerMode.date
@@ -96,7 +100,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         dateTextField.text = dateFormatter.string(from: selectedDate)
     }
     
-    
     func popAlert(title: String = "Alert", message: String){
         let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -105,13 +108,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func getMilesFromGoogleAPI(){
-        DispatchQueue.main.async {
-            if self.destinationTextField.text! != ""{
-                self.destinations.append(self.destinationTextField.text!)
-            }
-        }
-        
-        self.destinations.insert(self.originString, at:0)
         for i in 0 ..< (destinations.count - 1) {
             let url: NSString = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=\(destinations[i])&destinations=\(destinations[i+1])&key=\(googleDistanceMatrixAPI)" as NSString
             let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
@@ -153,7 +149,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.originTextField.text! = ""
             self.destinationTextField.text! = ""
             self.destinations.removeAll()
-            
         }
     }
 
