@@ -31,7 +31,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             for trip in trips{
                 print(trip.origin)
                 print(trip.destination)
-                //print(trip.date)
+                print(trip.mileage)
                 print("done one trip")
             }
 //            tableView.reloadData()
@@ -68,6 +68,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             popAlert(message: "Please make sure to enter origin and destination")
         }else{
             originString = originTextField.text!
+            destinations.append(self.destinationTextField.text!)
+            destinations.insert(self.originString, at:0)
             performSelector(inBackground: #selector(getMilesFromGoogleAPI), with: nil)
 //            originTextField.text! = ""
 //            destinationTextField.text! = ""
@@ -106,13 +108,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func getMilesFromGoogleAPI(){
-        DispatchQueue.main.async {
-            if self.destinationTextField.text! != ""{
-                self.destinations.append(self.destinationTextField.text!)
-            }
-        }
-        
-        self.destinations.insert(self.originString, at:0)
+//        DispatchQueue.main.async {
+//            if self.destinationTextField.text! != ""{
+//                self.destinations.append(self.destinationTextField.text!)
+//            }
+//        }
+//
+//        self.destinations.insert(self.originString, at:0)
         for i in 0 ..< (destinations.count - 1) {
             let url: NSString = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=\(destinations[i])&destinations=\(destinations[i+1])&key=\(googleDistanceMatrixAPI)" as NSString
             let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
@@ -132,7 +134,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                     trip.origin = self.destinations[i]
                                     trip.destination = self.destinations[i+1]
                                     trip.date = self.selectedDate as NSDate
-                                    trip.mileage = element["distance"]["value"].doubleValue
+                                    trip.mileage = round(100 * element["distance"]["value"].doubleValue / 1609.32258)/100
                                 }else{
                                     self.popAlert(message: "Please enter valide locations")
                                 }
