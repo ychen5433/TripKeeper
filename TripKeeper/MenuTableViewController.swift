@@ -53,10 +53,13 @@ class MenuTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView.cellForRow(at: indexPath)?.textLabel?.text == "Monthly Summaries"{
             let vc = storyboard?.instantiateViewController(withIdentifier: "MonthlySummariesTableViewController") as! MonthlySummariesTableViewController
-//            navigationController?.pushViewController(vc, animated: true)
-            present(vc, animated: true)
+            let revealVC = revealViewController()
+            let newFrontVC = UINavigationController.init(rootViewController: vc)
+            revealVC?.pushFrontViewController(newFrontVC, animated: true)
+            
         }
     }
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sectionTitles[section]
     }

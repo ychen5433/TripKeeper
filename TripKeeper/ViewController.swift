@@ -71,9 +71,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
             destinations.append(self.destinationTextField.text!)
             destinations.insert(self.originString, at:0)
             performSelector(inBackground: #selector(getMilesFromGoogleAPI), with: nil)
-//            originTextField.text! = ""
-//            destinationTextField.text! = ""
-//            destinations.removeAll()
         }
         
     }
@@ -85,8 +82,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
             popAlert(message: "Please enter the destination")
         }
     }
-    
-    
     @IBAction func pickDate(_ sender: UITextField) {
         let datePickerView = UIDatePicker()
         datePickerView.datePickerMode = UIDatePickerMode.date
@@ -99,7 +94,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         dateTextField.text = dateFormatter.string(from: selectedDate)
     }
     
-    
     func popAlert(title: String = "Alert", message: String){
         let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -108,13 +102,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func getMilesFromGoogleAPI(){
-//        DispatchQueue.main.async {
-//            if self.destinationTextField.text! != ""{
-//                self.destinations.append(self.destinationTextField.text!)
-//            }
-//        }
-//
-//        self.destinations.insert(self.originString, at:0)
         for i in 0 ..< (destinations.count - 1) {
             let url: NSString = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=\(destinations[i])&destinations=\(destinations[i+1])&key=\(googleDistanceMatrixAPI)" as NSString
             let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
@@ -129,8 +116,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         for row in jsonGoogleData["rows"].arrayValue{
                             for element in row["elements"].arrayValue{
                                 if element["status"].stringValue == "OK"{
-//                                print(element["distance"]["text"].doubleValue)
-//                                print(element["duration"]["text"])
                                     trip.origin = self.destinations[i]
                                     trip.destination = self.destinations[i+1]
                                     trip.date = self.selectedDate as NSDate
@@ -160,12 +145,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
 
