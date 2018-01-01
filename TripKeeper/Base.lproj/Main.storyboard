@@ -56,15 +56,15 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WWb-9S-VSh">
-                                                    <rect key="frame" x="226" y="52" width="42" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trips" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Tk-Mt-OFB">
+                                                    <rect key="frame" x="83" y="52" width="59" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Miles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rkg-pu-qVF">
-                                                    <rect key="frame" x="276" y="52" width="42" height="21"/>
+                                                    <rect key="frame" x="287" y="52" width="42" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -77,8 +77,8 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trips" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Tk-Mt-OFB">
-                                                    <rect key="frame" x="83" y="52" width="59" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="#" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WWb-9S-VSh">
+                                                    <rect key="frame" x="199" y="52" width="80" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -90,34 +90,24 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JjD-XX-ahg" userLabel="ButtonView">
                                             <rect key="frame" x="16" y="89" width="343" height="100"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LzX-No-4QR">
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LzX-No-4QR">
                                                     <rect key="frame" x="8" y="62" width="327" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.57461684940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <state key="normal" title="View Trips Details">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2kP-vj-4QQ">
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2kP-vj-4QQ">
                                                     <rect key="frame" x="8" y="24" width="327" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="2Yh-L0-hp1"/>
-                                                    </constraints>
                                                     <state key="normal" title="Send Report">
                                                         <color key="titleColor" red="0.0" green="0.56904578210000001" blue="0.57461684940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstItem="2kP-vj-4QQ" firstAttribute="leading" secondItem="LzX-No-4QR" secondAttribute="leading" id="6gc-Oh-0mw"/>
-                                                <constraint firstItem="LzX-No-4QR" firstAttribute="bottom" secondItem="JjD-XX-ahg" secondAttribute="bottomMargin" id="CmO-v1-RvB"/>
-                                                <constraint firstItem="2kP-vj-4QQ" firstAttribute="leading" secondItem="JjD-XX-ahg" secondAttribute="leadingMargin" id="Kjv-8T-FWE"/>
-                                                <constraint firstItem="2kP-vj-4QQ" firstAttribute="trailing" secondItem="LzX-No-4QR" secondAttribute="trailing" id="KnV-lr-N0Y"/>
-                                                <constraint firstItem="2kP-vj-4QQ" firstAttribute="top" secondItem="JjD-XX-ahg" secondAttribute="top" constant="24" id="iJx-bc-wiq"/>
-                                                <constraint firstItem="LzX-No-4QR" firstAttribute="top" secondItem="2kP-vj-4QQ" secondAttribute="bottom" constant="8" symbolic="YES" id="sKH-8o-4tf"/>
-                                                <constraint firstItem="2kP-vj-4QQ" firstAttribute="trailing" secondItem="JjD-XX-ahg" secondAttribute="trailingMargin" id="wvi-oY-adc"/>
-                                            </constraints>
                                         </view>
                                     </subviews>
                                     <constraints>
@@ -158,10 +148,10 @@
             </objects>
             <point key="canvasLocation" x="3037.5999999999999" y="1.3493253373313345"/>
         </scene>
-        <!--View Controller-->
+        <!--Trip Entry View Controller-->
         <scene sceneID="VSu-Zw-qfn">
             <objects>
-                <viewController storyboardIdentifier="ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5On-aq-YyT" customClass="ViewController" customModule="TripKeeper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TripEntryViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5On-aq-YyT" customClass="TripEntryViewController" customModule="TripKeeper" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7Nr-Ns-Io5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

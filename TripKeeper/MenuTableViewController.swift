@@ -12,16 +12,11 @@ class MenuTableViewController: UITableViewController {
     
     var sectionTitles = [String]()
     var rowContents = [[String]]()
-
+    var trips = [Trip]()
     override func viewDidLoad() {
         super.viewDidLoad()
         sectionTitles = ["Report","Setting"]
-        rowContents = [["Monthly Summaries","YTD","Pick Your Dates"],["Update Your Email"]]
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        rowContents = [["Trip Entry","Monthly Summaries","YTD","Pick Your Dates"],["Update Your Email"]]
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,15 +46,45 @@ class MenuTableViewController: UITableViewController {
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView.cellForRow(at: indexPath)?.textLabel?.text == "Monthly Summaries"{
+        getTrips()//get trips from coredata
+        let revealVC = revealViewController()
+        
+        let cellContent = tableView.cellForRow(at: indexPath)?.textLabel?.text!
+        
+        switch cellContent {
+        case "Monthly Summaries"?:
             let vc = storyboard?.instantiateViewController(withIdentifier: "MonthlySummariesTableViewController") as! MonthlySummariesTableViewController
-            let revealVC = revealViewController()
+            vc.trips = self.trips
             let newFrontVC = UINavigationController.init(rootViewController: vc)
             revealVC?.pushFrontViewController(newFrontVC, animated: true)
-            
+        case "Trip Entry"?:
+            let vc = storyboard?.instantiateViewController(withIdentifier: "TripEntryViewController") as! TripEntryViewController
+            let newFrontVC = UINavigationController.init(rootViewController: vc)
+            revealVC?.pushFrontViewController(newFrontVC, animated: true)
+        default:
+            print("no rows selected")
         }
     }
-    
+    func getTrips(){
+        let request = Trip.createFetchRequest()
+        let sort = NSSortDescriptor(key: "date", ascending: true)
+        request.sortDescriptors = [sort]
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        do {
+            trips = (try! appDelegate.persistentContainer.viewContext.fetch(request))
+            print("Got \(trips.count) trips")
+//            for trip in trips{
+//                print(trip.origin)
+//                print(trip.destination)
+//                print(trip.mileage)
+//                print("done one trip")
+//            }
+            //            tableView.reloadData()
+        } catch {
+            print("Fetch failed")
+        }
+    }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sectionTitles[section]
     }

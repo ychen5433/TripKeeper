@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class TripEntryViewController: UIViewController, UITextFieldDelegate {
     let googleDistanceMatrixAPI = "AIzaSyCTW7N5eDPF5Q_ZA6jouU0pqk_D7tk-b8I"
     @IBOutlet weak var menuBtn: UIBarButtonItem!
     @IBOutlet weak var originTextField: MVPlaceSearchTextField!
@@ -29,10 +29,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
             trips = (try appDelegate?.persistentContainer.viewContext.fetch(request))!
             print("Got \(trips.count) trips")
             for trip in trips{
+                print(trip.date)
                 print(trip.origin)
                 print(trip.destination)
                 print(trip.mileage)
-                print("done one trip")
+                print("\n")
             }
 //            tableView.reloadData()
         } catch {
@@ -111,7 +112,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             if let searchURL = NSURL(string: urlStr as String){
                 if let data = try? Data(contentsOf: searchURL as URL){
                     let jsonGoogleData = JSON(data: data)
-                    print(jsonGoogleData)
+//                    print(jsonGoogleData)
                     DispatchQueue.main.async {[unowned self] in
                         for row in jsonGoogleData["rows"].arrayValue{
                             for element in row["elements"].arrayValue{

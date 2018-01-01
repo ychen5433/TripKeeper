@@ -10,7 +10,7 @@
 		4A1DF51C1FF73B27007E91D4 /* TripDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DF51B1FF73B27007E91D4 /* TripDetailsTableViewController.swift */; };
 		4A1DF51E1FF73C48007E91D4 /* MonthlySummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DF51D1FF73C48007E91D4 /* MonthlySummaryCell.swift */; };
 		4A2B9A991FECB93A00AA977C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2B9A981FECB93A00AA977C /* AppDelegate.swift */; };
-		4A2B9A9B1FECB93A00AA977C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2B9A9A1FECB93A00AA977C /* ViewController.swift */; };
+		4A2B9A9B1FECB93A00AA977C /* TripEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2B9A9A1FECB93A00AA977C /* TripEntryViewController.swift */; };
 		4A2B9A9E1FECB93A00AA977C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A2B9A9C1FECB93A00AA977C /* Main.storyboard */; };
 		4A2B9AA11FECB93A00AA977C /* TripKeeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4A2B9A9F1FECB93A00AA977C /* TripKeeper.xcdatamodeld */; };
 		4A2B9AA31FECB93A00AA977C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A2B9AA21FECB93A00AA977C /* Assets.xcassets */; };
@@ -56,7 +56,7 @@
 		4A1DF51D1FF73C48007E91D4 /* MonthlySummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlySummaryCell.swift; sourceTree = "<group>"; };
 		4A2B9A951FECB93A00AA977C /* TripKeeper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripKeeper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A2B9A981FECB93A00AA977C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4A2B9A9A1FECB93A00AA977C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4A2B9A9A1FECB93A00AA977C /* TripEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripEntryViewController.swift; sourceTree = "<group>"; };
 		4A2B9A9D1FECB93A00AA977C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4A2B9AA01FECB93A00AA977C /* TripKeeper.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TripKeeper.xcdatamodel; sourceTree = "<group>"; };
 		4A2B9AA21FECB93A00AA977C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -157,7 +157,7 @@
 				4A9A09E51FEEF6F300160648 /* Trip+CoreDataClass.swift */,
 				4A9A09E61FEEF6F300160648 /* Trip+CoreDataProperties.swift */,
 				4A2B9A981FECB93A00AA977C /* AppDelegate.swift */,
-				4A2B9A9A1FECB93A00AA977C /* ViewController.swift */,
+				4A2B9A9A1FECB93A00AA977C /* TripEntryViewController.swift */,
 				4A2B9A9C1FECB93A00AA977C /* Main.storyboard */,
 				4A2B9AA21FECB93A00AA977C /* Assets.xcassets */,
 				4A2B9AA41FECB93A00AA977C /* LaunchScreen.storyboard */,
@@ -548,7 +548,7 @@
 				4A1DF51C1FF73B27007E91D4 /* TripDetailsTableViewController.swift in Sources */,
 				4ADA01D31FF3D18C0022CD77 /* TripDetailCell.swift in Sources */,
 				4A2B9AE11FED6FAA00AA977C /* NSString+Levenshtein.m in Sources */,
-				4A2B9A9B1FECB93A00AA977C /* ViewController.swift in Sources */,
+				4A2B9A9B1FECB93A00AA977C /* TripEntryViewController.swift in Sources */,
 				4A2B9ACE1FED50B700AA977C /* MenuTableViewController.swift in Sources */,
 				4A2B9AD01FED6E6000AA977C /* SwiftyJSON.swift in Sources */,
 				4A2B9AE41FED6FAA00AA977C /* PlaceDetail.m in Sources */,
