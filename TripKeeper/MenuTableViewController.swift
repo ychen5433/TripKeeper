@@ -70,7 +70,6 @@ class MenuTableViewController: UITableViewController {
         let sort = NSSortDescriptor(key: "date", ascending: false)
         request.sortDescriptors = [sort]
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
         do {
             trips = (try! appDelegate.persistentContainer.viewContext.fetch(request))
             print("Got \(trips.count) trips")

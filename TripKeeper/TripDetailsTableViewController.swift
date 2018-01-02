@@ -12,6 +12,13 @@ class TripDetailsTableViewController: UITableViewController {
   
     @IBOutlet weak var menuBtn: UIBarButtonItem!
     var trips = [Trip]()
+    var currentMonthTrips = [Trip]()
+    var dateFormatter = DateFormatter()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
     
     @IBAction func backToMonthlySummeries(_ sender: UIBarButtonItem) {
         getTrips()
@@ -25,11 +32,6 @@ class TripDetailsTableViewController: UITableViewController {
         view.window!.layer.add(transition, forKey: kCATransition)
 
         navigationController?.pushViewController(vc, animated: true)
-//        let revealVC = revealViewController()
-//        let vc = storyboard?.instantiateViewController(withIdentifier: "MonthlySummariesTableViewController") as! MonthlySummariesTableViewController
-//        vc.trips = self.trips
-//        let newFrontVC = UINavigationController.init(rootViewController: vc)
-//        revealVC?.pushFrontViewController(newFrontVC, animated: true)
     }
     func getTrips(){
         let request = Trip.createFetchRequest()
@@ -39,31 +41,25 @@ class TripDetailsTableViewController: UITableViewController {
         
         do {
             trips = (try! appDelegate.persistentContainer.viewContext.fetch(request))
-            print("Got \(trips.count) trips")
-            //            for trip in trips{
-            //                print(trip.origin)
-            //                print(trip.destination)
-            //                print(trip.mileage)
-            //                print("done one trip")
-            //            }
-            //            tableView.reloadData()
+//            print("Got \(trips.count) trips")
         } catch {
             print("Fetch failed")
         }
     }
-    var currentMonthTrips = [Trip]()
-    var dateFormatter = DateFormatter()
-    override func viewDidLoad() {
-        super.viewDidLoad()
-//        menuBtn.target = revealViewController()
-//        menuBtn.action = #selector(SWRevealViewController.revealToggle(_:))
-//        view.addGestureRecognizer(revealViewController().panGestureRecognizer())
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    func colorForIndex(index: Int) -> UIColor
+    {
+        let itemCount = trips.count - 1
+        let color = (CGFloat(index) / CGFloat(itemCount)) * 0.6
+        return UIColor(red: 0.80, green: color, blue: 0.0, alpha: 1.0)
     }
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if (indexPath.row % 2 == 1){
+            cell.backgroundColor = UIColor.lightGray
+        }else{
+            cell.backgroundColor = UIColor.white
+        }
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

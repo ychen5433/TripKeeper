@@ -20,17 +20,6 @@ class MonthlySummariesTableViewController: UITableViewController {
     
     let date = Date()
     let dateFormatter = DateFormatter()
-//            dateFormatter.dateFormat = "MMMM yyyy"
-    //        let month = dateFormatter.string(from: date)
-    //        dateFormatter.dateFormat = "yyyy"
-    //        let year = dateFormatter.string(from: date)
-    //        dateFormatter.dateFormat = "dd"
-    //        let day = dateFormatter.string(from: date)
-    //
-    //        let previousMonth = date.getPreviousMonth()
-    //        dateFormatter.dateFormat = "MMM - yyyy"
-    //        let lastMonth = dateFormatter.string(from: previousMonth!)
-    //        dates = [month, year,day,lastMonth, month,month, month, month]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,13 +27,10 @@ class MonthlySummariesTableViewController: UITableViewController {
         menuBtn.action = #selector(SWRevealViewController.revealToggle(_:))
         view.addGestureRecognizer(revealViewController().panGestureRecognizer())
         getSumOfMonthlyData()
-//        retrieveTrips(for: "December 2017")
     }
     func getSumOfMonthlyData(){
         dateFormatter.dateFormat = "MMMM yyyy"
-         print("*****_______)))\n has \(trips.count)")
         if trips.count > 0{
-            
             var currentMonth = dateFormatter.string(from: trips[0].date as Date)
             print(currentMonth)
            
@@ -70,7 +56,7 @@ class MonthlySummariesTableViewController: UITableViewController {
                     monthlyData.append(newMonthData)
                 }
             }
-            print(monthlyData)
+//            print(monthlyData)
         }
     }
     @IBAction func viewTripsDetails(_ sender: UIButton) {
@@ -122,9 +108,7 @@ class MonthlySummariesTableViewController: UITableViewController {
         cell.onButtonTapped = {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "TripDetailsTableViewController") as! TripDetailsTableViewController
             vc.currentMonthTrips = self.retrieveTrips(for: cell.month.text!)
-//            let newVC = UINavigationController.init(rootViewController: vc)
             self.navigationController?.pushViewController(vc, animated: true)
-//            self.present(newVC,animated: true)
         }
         return cell
     }
@@ -141,9 +125,7 @@ class MonthlySummariesTableViewController: UITableViewController {
         tableView.endUpdates()
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        if defaultRow == 0{
-//            tableView.cellForRow(at: indexPath
-//        }
+
         if (selectedIndexPath == indexPath.row){
             return 200
         }else{
