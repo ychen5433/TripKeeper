@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class TripEntryViewController: UIViewController, UITextFieldDelegate {
     let googleDistanceMatrixAPI = "AIzaSyCTW7N5eDPF5Q_ZA6jouU0pqk_D7tk-b8I"
     @IBOutlet weak var menuBtn: UIBarButtonItem!
     @IBOutlet weak var originTextField: MVPlaceSearchTextField!
@@ -74,9 +74,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
             destinations.append(destinationTextField.text!)
             destinations.insert(self.originString, at:0)
             performSelector(inBackground: #selector(getMilesFromGoogleAPI), with: nil)
-//            originTextField.text! = ""
-//            destinationTextField.text! = ""
-//            destinations.removeAll()
         }
         
     }
@@ -118,13 +115,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
             if let searchURL = NSURL(string: urlStr as String){
                 if let data = try? Data(contentsOf: searchURL as URL){
                     let jsonGoogleData = JSON(data: data)
-                    print(jsonGoogleData)
+//                    print(jsonGoogleData)
                     DispatchQueue.main.async {[unowned self] in
                         for row in jsonGoogleData["rows"].arrayValue{
                             for element in row["elements"].arrayValue{
                                 if element["status"].stringValue == "OK"{
-//                                print(element["distance"]["text"].doubleValue)
-//                                print(element["duration"]["text"])
                                     trip.origin = self.destinations[i]
                                     trip.destination = self.destinations[i+1]
                                     trip.date = self.selectedDate as NSDate
@@ -153,12 +148,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
 

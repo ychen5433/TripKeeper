@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A1DF51C1FF73B27007E91D4 /* TripDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DF51B1FF73B27007E91D4 /* TripDetailsTableViewController.swift */; };
+		4A1DF51E1FF73C48007E91D4 /* MonthlySummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DF51D1FF73C48007E91D4 /* MonthlySummaryCell.swift */; };
 		4A2B9A991FECB93A00AA977C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2B9A981FECB93A00AA977C /* AppDelegate.swift */; };
-		4A2B9A9B1FECB93A00AA977C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2B9A9A1FECB93A00AA977C /* ViewController.swift */; };
+		4A2B9A9B1FECB93A00AA977C /* TripEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2B9A9A1FECB93A00AA977C /* TripEntryViewController.swift */; };
 		4A2B9A9E1FECB93A00AA977C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A2B9A9C1FECB93A00AA977C /* Main.storyboard */; };
 		4A2B9AA11FECB93A00AA977C /* TripKeeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4A2B9A9F1FECB93A00AA977C /* TripKeeper.xcdatamodeld */; };
 		4A2B9AA31FECB93A00AA977C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A2B9AA21FECB93A00AA977C /* Assets.xcassets */; };
@@ -25,6 +27,8 @@
 		4A2B9AE41FED6FAA00AA977C /* PlaceDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2B9ADE1FED6FAA00AA977C /* PlaceDetail.m */; };
 		4A9A09E71FEEF6F300160648 /* Trip+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9A09E51FEEF6F300160648 /* Trip+CoreDataClass.swift */; };
 		4A9A09E81FEEF6F300160648 /* Trip+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9A09E61FEEF6F300160648 /* Trip+CoreDataProperties.swift */; };
+		4ADA01D31FF3D18C0022CD77 /* TripDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADA01D21FF3D18C0022CD77 /* TripDetailCell.swift */; };
+		4ADA02161FF54DD50022CD77 /* MonthlySummariesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADA02151FF54DD50022CD77 /* MonthlySummariesTableViewController.swift */; };
 		73625B1C0307BB302A7483C5 /* Pods_TripKeeperTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70EC7F31FB441ECF9BE1DAD0 /* Pods_TripKeeperTests.framework */; };
 		7EE49812ECEF82C9B742CDFA /* Pods_TripKeeper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA22295E7A85905523F1BD4A /* Pods_TripKeeper.framework */; };
 		B88789EBAE8AF8859A353BB0 /* Pods_TripKeeperUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 856D55B51E457D886F7F6CC9 /* Pods_TripKeeperUITests.framework */; };
@@ -48,9 +52,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A1DF51B1FF73B27007E91D4 /* TripDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailsTableViewController.swift; sourceTree = "<group>"; };
+		4A1DF51D1FF73C48007E91D4 /* MonthlySummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlySummaryCell.swift; sourceTree = "<group>"; };
 		4A2B9A951FECB93A00AA977C /* TripKeeper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripKeeper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A2B9A981FECB93A00AA977C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4A2B9A9A1FECB93A00AA977C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4A2B9A9A1FECB93A00AA977C /* TripEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripEntryViewController.swift; sourceTree = "<group>"; };
 		4A2B9A9D1FECB93A00AA977C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4A2B9AA01FECB93A00AA977C /* TripKeeper.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TripKeeper.xcdatamodel; sourceTree = "<group>"; };
 		4A2B9AA21FECB93A00AA977C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -82,6 +88,8 @@
 		4A2B9ADF1FED6FAA00AA977C /* MVPlaceSearchTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MVPlaceSearchTextField.h; sourceTree = "<group>"; };
 		4A9A09E51FEEF6F300160648 /* Trip+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trip+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4A9A09E61FEEF6F300160648 /* Trip+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trip+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4ADA01D21FF3D18C0022CD77 /* TripDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailCell.swift; sourceTree = "<group>"; };
+		4ADA02151FF54DD50022CD77 /* MonthlySummariesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlySummariesTableViewController.swift; sourceTree = "<group>"; };
 		70EC7F31FB441ECF9BE1DAD0 /* Pods_TripKeeperTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TripKeeperTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FF65B42C4B42E95840B6B49 /* Pods-TripKeeperUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripKeeperUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TripKeeperUITests/Pods-TripKeeperUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		856D55B51E457D886F7F6CC9 /* Pods_TripKeeperUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TripKeeperUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -149,8 +157,7 @@
 				4A9A09E51FEEF6F300160648 /* Trip+CoreDataClass.swift */,
 				4A9A09E61FEEF6F300160648 /* Trip+CoreDataProperties.swift */,
 				4A2B9A981FECB93A00AA977C /* AppDelegate.swift */,
-				4A2B9A9A1FECB93A00AA977C /* ViewController.swift */,
-				4A2B9ACD1FED50B700AA977C /* MenuTableViewController.swift */,
+				4A2B9A9A1FECB93A00AA977C /* TripEntryViewController.swift */,
 				4A2B9A9C1FECB93A00AA977C /* Main.storyboard */,
 				4A2B9AA21FECB93A00AA977C /* Assets.xcassets */,
 				4A2B9AA41FECB93A00AA977C /* LaunchScreen.storyboard */,
@@ -161,6 +168,11 @@
 				4A2B9ACF1FED6E6000AA977C /* SwiftyJSON.swift */,
 				4A2B9AC91FECBBCB00AA977C /* TripKeeper-Bridging-Header.h */,
 				4A2B9AD11FED6FAA00AA977C /* MVPlaceSearchTextField */,
+				4ADA01D21FF3D18C0022CD77 /* TripDetailCell.swift */,
+				4A1DF51B1FF73B27007E91D4 /* TripDetailsTableViewController.swift */,
+				4A1DF51D1FF73C48007E91D4 /* MonthlySummaryCell.swift */,
+				4ADA02151FF54DD50022CD77 /* MonthlySummariesTableViewController.swift */,
+				4A2B9ACD1FED50B700AA977C /* MenuTableViewController.swift */,
 			);
 			path = TripKeeper;
 			sourceTree = "<group>";
@@ -532,8 +544,11 @@
 			files = (
 				4A2B9AE21FED6FAA00AA977C /* MLPAutoCompleteTextField.m in Sources */,
 				4A2B9AA11FECB93A00AA977C /* TripKeeper.xcdatamodeld in Sources */,
+				4A1DF51E1FF73C48007E91D4 /* MonthlySummaryCell.swift in Sources */,
+				4A1DF51C1FF73B27007E91D4 /* TripDetailsTableViewController.swift in Sources */,
+				4ADA01D31FF3D18C0022CD77 /* TripDetailCell.swift in Sources */,
 				4A2B9AE11FED6FAA00AA977C /* NSString+Levenshtein.m in Sources */,
-				4A2B9A9B1FECB93A00AA977C /* ViewController.swift in Sources */,
+				4A2B9A9B1FECB93A00AA977C /* TripEntryViewController.swift in Sources */,
 				4A2B9ACE1FED50B700AA977C /* MenuTableViewController.swift in Sources */,
 				4A2B9AD01FED6E6000AA977C /* SwiftyJSON.swift in Sources */,
 				4A2B9AE41FED6FAA00AA977C /* PlaceDetail.m in Sources */,
@@ -541,6 +556,7 @@
 				4A9A09E81FEEF6F300160648 /* Trip+CoreDataProperties.swift in Sources */,
 				4A2B9A991FECB93A00AA977C /* AppDelegate.swift in Sources */,
 				4A2B9AE01FED6FAA00AA977C /* PlaceObject.m in Sources */,
+				4ADA02161FF54DD50022CD77 /* MonthlySummariesTableViewController.swift in Sources */,
 				4A9A09E71FEEF6F300160648 /* Trip+CoreDataClass.swift in Sources */,
 				4A2B9ACB1FECBBCC00AA977C /* SWRevealViewController.m in Sources */,
 			);
