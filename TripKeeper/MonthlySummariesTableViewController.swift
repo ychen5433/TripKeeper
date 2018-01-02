@@ -10,10 +10,13 @@ import UIKit
 
 class MonthlySummariesTableViewController: UITableViewController {
     @IBOutlet weak var menuBtn: UIBarButtonItem!
-    var selectedIndexPath = -1
+    var selectedIndexPath = 0
     var defaultRow = 0
     var trips = [Trip]()
+    
     var monthlyData = [(month: String, totalTrips: Int,totalMiles: Double)]()
+    var flag = true
+    var flipCount = 0
     
     let date = Date()
     let dateFormatter = DateFormatter()
@@ -35,6 +38,7 @@ class MonthlySummariesTableViewController: UITableViewController {
         menuBtn.action = #selector(SWRevealViewController.revealToggle(_:))
         view.addGestureRecognizer(revealViewController().panGestureRecognizer())
         getSumOfMonthlyData()
+//        retrieveTrips(for: "December 2017")
     }
     func getSumOfMonthlyData(){
         dateFormatter.dateFormat = "MMMM yyyy"
@@ -49,18 +53,46 @@ class MonthlySummariesTableViewController: UITableViewController {
             for trip in trips{
                 print(trip.date)
                 if dateFormatter.string(from: trip.date as Date) == currentMonth{
+                    print(currentMonth)
                     tripSum += 1
                     mileSum += trip.mileage
                 }else{
                     let newMonthData = (currentMonth, tripSum, mileSum)
+                    print(currentMonth)
                     monthlyData.append(newMonthData)
                     currentMonth = dateFormatter.string(from: trip.date as Date)
+                    print(currentMonth)
                     tripSum = 1
                     mileSum = trip.mileage
+                }
+                if trip == trips.last{
+                    let newMonthData = (currentMonth, tripSum, mileSum)
+                    monthlyData.append(newMonthData)
                 }
             }
             print(monthlyData)
         }
+    }
+    @IBAction func viewTripsDetails(_ sender: UIButton) {
+        
+    }
+    
+    func retrieveTrips(for month: String) -> [Trip]{
+        var requestedMonthTrips = [Trip]()
+        dateFormatter.dateFormat = "MMMM yyyy"
+        for trip in trips{
+            if dateFormatter.string(from: trip.date as Date) == month{
+                requestedMonthTrips.append(trip)
+                flag = true
+                flipCount = 1
+            }else{
+                flag = false
+            }
+            if flipCount == 1 && !flag{
+                break
+            }
+        }
+        return requestedMonthTrips
     }
     
     override func didReceiveMemoryWarning() {
@@ -85,7 +117,15 @@ class MonthlySummariesTableViewController: UITableViewController {
         cell.month.text! = monthlyData[indexPath.row].month
         cell.totalMiles.text! = "\(monthlyData[indexPath.row].totalMiles)"
         cell.numberOfTrips.text! = "\(monthlyData[indexPath.row].totalTrips)"
-
+//        let monthStr = monthlyData[indexPath.row].month.components(separatedBy: " ")[0]
+//        cell.viewTripsDetailsBtn.titleLabel!.text! = "View \(monthStr) Trips Details"
+        cell.onButtonTapped = {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "TripDetailsTableViewController") as! TripDetailsTableViewController
+            vc.currentMonthTrips = self.retrieveTrips(for: cell.month.text!)
+//            let newVC = UINavigationController.init(rootViewController: vc)
+            self.navigationController?.pushViewController(vc, animated: true)
+//            self.present(newVC,animated: true)
+        }
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -95,6 +135,7 @@ class MonthlySummariesTableViewController: UITableViewController {
             selectedIndexPath = indexPath.row
         }
         print("there are \(trips.count) retrived from core data")
+
         tableView.beginUpdates()
         tableView.reloadRows(at: [indexPath], with: .automatic)
         tableView.endUpdates()

@@ -67,7 +67,7 @@ class MenuTableViewController: UITableViewController {
     }
     func getTrips(){
         let request = Trip.createFetchRequest()
-        let sort = NSSortDescriptor(key: "date", ascending: true)
+        let sort = NSSortDescriptor(key: "date", ascending: false)
         request.sortDescriptors = [sort]
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -88,6 +88,8 @@ class MenuTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sectionTitles[section]
     }
+    
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

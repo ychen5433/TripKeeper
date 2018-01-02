@@ -19,27 +19,27 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate {
     var trips = [Trip]()
     var selectedDate = Date()
     
-    @IBAction func fetchCoreData(_ sender: UIButton) {
-        
-        let request = Trip.createFetchRequest()
-        let sort = NSSortDescriptor(key: "date", ascending: false)
-        request.sortDescriptors = [sort]
-        
-        do {
-            trips = (try appDelegate?.persistentContainer.viewContext.fetch(request))!
-            print("Got \(trips.count) trips")
-            for trip in trips{
-                print(trip.date)
-                print(trip.origin)
-                print(trip.destination)
-                print(trip.mileage)
-                print("\n")
-            }
-//            tableView.reloadData()
-        } catch {
-            print("Fetch failed")
-        }
-    }
+//    @IBAction func fetchCoreData(_ sender: UIButton) {
+//
+//        let request = Trip.createFetchRequest()
+//        let sort = NSSortDescriptor(key: "date", ascending: false)
+//        request.sortDescriptors = [sort]
+//
+//        do {
+//            trips = (try appDelegate?.persistentContainer.viewContext.fetch(request))!
+//            print("Got \(trips.count) trips")
+//            for trip in trips{
+//                print(trip.date)
+//                print(trip.origin)
+//                print(trip.destination)
+//                print(trip.mileage)
+//                print("\n")
+//            }
+////            tableView.reloadData()
+//        } catch {
+//            print("Fetch failed")
+//        }
+//    }
     @IBOutlet weak var noteTextView: UITextView!
     @IBOutlet weak var dateTextField: UITextField!
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
