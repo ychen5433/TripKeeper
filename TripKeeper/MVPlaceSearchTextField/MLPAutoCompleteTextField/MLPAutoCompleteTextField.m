@@ -899,6 +899,9 @@ withAutoCompleteString:(NSString *)string
         if (self.isCancelled){
             return;
         }
+//        Boolean somethinng = dispatch_async(dispatch_get_main_queue(), ^{[self.dataSource respondsToSelector:@selector(autoCompleteTextField:possibleCompletionsForString:completionHandler:)];
+//        });
+//        if(somethinng){
 
         if([self.dataSource respondsToSelector:@selector(autoCompleteTextField:possibleCompletionsForString:completionHandler:)]){
             __weak MLPAutoCompleteFetchOperation *operation = self;

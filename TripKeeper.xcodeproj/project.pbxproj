@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A0C687D1FFC457300A6D57C /* DestinationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0C687C1FFC457300A6D57C /* DestinationCell.swift */; };
 		4A1DF51C1FF73B27007E91D4 /* TripDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DF51B1FF73B27007E91D4 /* TripDetailsTableViewController.swift */; };
 		4A1DF51E1FF73C48007E91D4 /* MonthlySummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1DF51D1FF73C48007E91D4 /* MonthlySummaryCell.swift */; };
 		4A2B9A991FECB93A00AA977C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2B9A981FECB93A00AA977C /* AppDelegate.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A0C687C1FFC457300A6D57C /* DestinationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationCell.swift; sourceTree = "<group>"; };
 		4A1DF51B1FF73B27007E91D4 /* TripDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailsTableViewController.swift; sourceTree = "<group>"; };
 		4A1DF51D1FF73C48007E91D4 /* MonthlySummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlySummaryCell.swift; sourceTree = "<group>"; };
 		4A2B9A951FECB93A00AA977C /* TripKeeper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripKeeper.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,25 +156,26 @@
 		4A2B9A971FECB93A00AA977C /* TripKeeper */ = {
 			isa = PBXGroup;
 			children = (
-				4A9A09E51FEEF6F300160648 /* Trip+CoreDataClass.swift */,
-				4A9A09E61FEEF6F300160648 /* Trip+CoreDataProperties.swift */,
-				4A2B9A981FECB93A00AA977C /* AppDelegate.swift */,
-				4A2B9A9A1FECB93A00AA977C /* TripEntryViewController.swift */,
 				4A2B9A9C1FECB93A00AA977C /* Main.storyboard */,
-				4A2B9AA21FECB93A00AA977C /* Assets.xcassets */,
-				4A2B9AA41FECB93A00AA977C /* LaunchScreen.storyboard */,
-				4A2B9AA71FECB93A00AA977C /* Info.plist */,
-				4A2B9A9F1FECB93A00AA977C /* TripKeeper.xcdatamodeld */,
-				4A2B9ACC1FECBBE400AA977C /* SWRevealViewController.h */,
-				4A2B9ACA1FECBBCC00AA977C /* SWRevealViewController.m */,
-				4A2B9ACF1FED6E6000AA977C /* SwiftyJSON.swift */,
-				4A2B9AC91FECBBCB00AA977C /* TripKeeper-Bridging-Header.h */,
-				4A2B9AD11FED6FAA00AA977C /* MVPlaceSearchTextField */,
+				4A2B9A9A1FECB93A00AA977C /* TripEntryViewController.swift */,
+				4A0C687C1FFC457300A6D57C /* DestinationCell.swift */,
 				4ADA01D21FF3D18C0022CD77 /* TripDetailCell.swift */,
 				4A1DF51B1FF73B27007E91D4 /* TripDetailsTableViewController.swift */,
 				4A1DF51D1FF73C48007E91D4 /* MonthlySummaryCell.swift */,
 				4ADA02151FF54DD50022CD77 /* MonthlySummariesTableViewController.swift */,
 				4A2B9ACD1FED50B700AA977C /* MenuTableViewController.swift */,
+				4A2B9A9F1FECB93A00AA977C /* TripKeeper.xcdatamodeld */,
+				4A2B9AA41FECB93A00AA977C /* LaunchScreen.storyboard */,
+				4A2B9ACC1FECBBE400AA977C /* SWRevealViewController.h */,
+				4A2B9ACA1FECBBCC00AA977C /* SWRevealViewController.m */,
+				4A2B9ACF1FED6E6000AA977C /* SwiftyJSON.swift */,
+				4A2B9A981FECB93A00AA977C /* AppDelegate.swift */,
+				4A9A09E51FEEF6F300160648 /* Trip+CoreDataClass.swift */,
+				4A9A09E61FEEF6F300160648 /* Trip+CoreDataProperties.swift */,
+				4A2B9AC91FECBBCB00AA977C /* TripKeeper-Bridging-Header.h */,
+				4A2B9AA71FECB93A00AA977C /* Info.plist */,
+				4A2B9AA21FECB93A00AA977C /* Assets.xcassets */,
+				4A2B9AD11FED6FAA00AA977C /* MVPlaceSearchTextField */,
 			);
 			path = TripKeeper;
 			sourceTree = "<group>";
@@ -548,6 +551,7 @@
 				4A1DF51C1FF73B27007E91D4 /* TripDetailsTableViewController.swift in Sources */,
 				4ADA01D31FF3D18C0022CD77 /* TripDetailCell.swift in Sources */,
 				4A2B9AE11FED6FAA00AA977C /* NSString+Levenshtein.m in Sources */,
+				4A0C687D1FFC457300A6D57C /* DestinationCell.swift in Sources */,
 				4A2B9A9B1FECB93A00AA977C /* TripEntryViewController.swift in Sources */,
 				4A2B9ACE1FED50B700AA977C /* MenuTableViewController.swift in Sources */,
 				4A2B9AD01FED6E6000AA977C /* SwiftyJSON.swift in Sources */,

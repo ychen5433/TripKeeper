@@ -53,22 +53,61 @@
 }
 #pragma mark - Datasource Autocomplete
 //example of asynchronous fetch:
+//- (void)autoCompleteTextField:(MLPAutoCompleteTextField *)textField
+// possibleCompletionsForString:(NSString *)string
+//            completionHandler:(void (^)(NSArray *))handler
+//{
+//    __block NSString *aQuery;
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        aQuery = textField.text;
+//    });
+//    [NSObject cancelPreviousPerformRequestsWithTarget:_placesClient selector:@selector(autocompleteQuery:bounds:filter:callback:) object:self];
+//
+//    if(aQuery.length>0){
+//        GMSAutocompleteFilter *filter = [[GMSAutocompleteFilter alloc] init];
+//        filter.type = kGMSPlacesAutocompleteTypeFilterNoFilter;
+//
+//        [_placesClient autocompleteQuery:aQuery
+//                                  bounds:nil
+//                                  filter:filter
+//                                callback:^(NSArray *results, NSError *error) {
+//                                    if (error != nil) {
+//                                        NSLog(@"Autocomplete error %@", [error localizedDescription]);
+//                                        handler(nil);
+//                                        return;
+//                                    }
+//                                    if(results.count>0){
+//                                        NSMutableArray *arrfinal=[NSMutableArray array];
+//                                        for (GMSAutocompletePrediction* result in results) {
+//                                            NSDictionary *aTempDict =  [NSDictionary dictionaryWithObjectsAndKeys:result.attributedFullText.string,@"description",result.placeID,@"reference", nil];
+//                                            PlaceObject *placeObj=[[PlaceObject alloc]initWithPlaceName:[aTempDict objectForKey:@"description"]];
+//                                            placeObj.userInfo=aTempDict;
+//                                            [arrfinal addObject:placeObj];
+//
+//                                        }
+//                                        handler(arrfinal);
+//                                    }else{
+//                                        handler(nil);
+//                                    }
+//                                }];
+//    }else{
+//        handler(nil);
+//    }
+//}
+
+
 - (void)autoCompleteTextField:(MLPAutoCompleteTextField *)textField
  possibleCompletionsForString:(NSString *)string
             completionHandler:(void (^)(NSArray *))handler
 {
-//    NSLog(@"........___________.........");
-//    NSString *aQuery=textField.text;
-//    NSLog(aQuery);
-    __block NSString *aQuery;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        aQuery = textField.text;
-    });
+    NSString *aQuery=textField.text;
     [NSObject cancelPreviousPerformRequestsWithTarget:_placesClient selector:@selector(autocompleteQuery:bounds:filter:callback:) object:self];
     
     if(aQuery.length>0){
         GMSAutocompleteFilter *filter = [[GMSAutocompleteFilter alloc] init];
         filter.type = kGMSPlacesAutocompleteTypeFilterNoFilter;
+        
+        
         
         [_placesClient autocompleteQuery:aQuery
                                   bounds:nil
@@ -97,8 +136,6 @@
         handler(nil);
     }
 }
-
-
 
 #pragma mark - AutoComplete Delegates
 -(void)autoCompleteTextField:(MLPAutoCompleteTextField *)textField didSelectAutoCompleteString:(NSString *)selectedString withAutoCompleteObject:(id<MLPAutoCompletionObject>)selectedObject forRowAtIndexPath:(NSIndexPath *)indexPath{
