@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class MenuTableViewController: UITableViewController {
+class MenuTableViewController: UITableViewController, MFMailComposeViewControllerDelegate {
     
     var sectionTitles = [String]()
     var rowContents = [[String]]()
@@ -65,6 +66,20 @@ class MenuTableViewController: UITableViewController {
             print("no rows selected")
         }
     }
+//    func sendEmail(){
+//        if MFMailComposeViewController.canSendMail(){
+//            let mail = MFMailComposeViewController()
+//            mail.mailComposeDelegate = self
+//            mail.setToRecipients(["ychen5433@gmail.com"])
+//            mail.setMessageBody("<p>You're so awesome!<p>", isHTML: true)
+//            present(mail, animated: true)
+//        }else{
+//            print("Failed sending the email")
+//        }
+//    }
+//    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+//        controller.dismiss(animated: true, completion: nil)
+//    }
     func getTrips(){
         let request = Trip.createFetchRequest()
         let sort = NSSortDescriptor(key: "date", ascending: false)
@@ -72,14 +87,7 @@ class MenuTableViewController: UITableViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         do {
             trips = (try! appDelegate.persistentContainer.viewContext.fetch(request))
-            print("Got \(trips.count) trips")
-//            for trip in trips{
-//                print(trip.origin)
-//                print(trip.destination)
-//                print(trip.mileage)
-//                print("done one trip")
-//            }
-            //            tableView.reloadData()
+            //print("Got \(trips.count) trips")
         } catch {
             print("Fetch failed")
         }

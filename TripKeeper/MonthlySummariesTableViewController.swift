@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class MonthlySummariesTableViewController: UITableViewController {
+class MonthlySummariesTableViewController: UITableViewController,MFMailComposeViewControllerDelegate {
     @IBOutlet weak var menuBtn: UIBarButtonItem!
     var selectedIndexPath = 0
     var defaultRow = 0
@@ -56,7 +57,6 @@ class MonthlySummariesTableViewController: UITableViewController {
                     monthlyData.append(newMonthData)
                 }
             }
-//            print(monthlyData)
         }
     }
     @IBAction func viewTripsDetails(_ sender: UIButton) {
@@ -103,14 +103,65 @@ class MonthlySummariesTableViewController: UITableViewController {
         cell.month.text! = monthlyData[indexPath.row].month
         cell.totalMiles.text! = "\(monthlyData[indexPath.row].totalMiles)"
         cell.numberOfTrips.text! = "\(monthlyData[indexPath.row].totalTrips)"
-//        let monthStr = monthlyData[indexPath.row].month.components(separatedBy: " ")[0]
-//        cell.viewTripsDetailsBtn.titleLabel!.text! = "View \(monthStr) Trips Details"
+//        let currentMonthTrips = self.retrieveTrips(for: cell.month.text!)
         cell.onButtonTapped = {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "TripDetailsTableViewController") as! TripDetailsTableViewController
             vc.currentMonthTrips = self.retrieveTrips(for: cell.month.text!)
             self.navigationController?.pushViewController(vc, animated: true)
         }
+        cell.onReportBtnTapped = {
+            let trips = self.retrieveTrips(for: cell.month.text!)
+            self.sendCSVReport(indexForRequestedMonth: indexPath.row, currentMonthTrips:trips)
+        }
         return cell
+    }
+    
+    func sendCSVReport(indexForRequestedMonth: Int,currentMonthTrips: [Trip]){
+        let requestedMonthTrips = currentMonthTrips
+            if MFMailComposeViewController.canSendMail(){
+                dateFormatter.dateFormat = "MMM dd"
+                let monthYear = monthlyData[indexForRequestedMonth].month
+                let month = monthYear.components(separatedBy: " ")[0]
+                let year = monthYear.components(separatedBy: " ")[1]
+                let tripFileName = "\(monthYear).csv"
+                let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(tripFileName)
+                var csvText = "Year,Month,Trip Count,Total Mileage\n\(year),\(month),\(monthlyData[indexForRequestedMonth].totalTrips),\(monthlyData[indexForRequestedMonth].totalMiles)\n\n,,,\n Date,From,To,Miles\n"
+                for trip in requestedMonthTrips{
+//                    print(trip.destination)
+                    csvText.append("\"\(dateFormatter.string(from: trip.date as Date))\",\"\(trip.origin)\",\"\(trip.destination)\",\"\(trip.mileage)\"\n")
+                }
+                do{
+                    try csvText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
+                    
+                    let mail = MFMailComposeViewController()
+                    mail.mailComposeDelegate = self
+                    mail.setToRecipients(["ychen5433@gmail.com"])
+                    mail.setMessageBody("Hi,\n\nThe .csv trips data is attached\n\n", isHTML: false)
+                    mail.setSubject("Trips Report from TripKeeper")
+                    
+                    try mail.addAttachmentData(NSData(contentsOf: path!) as Data, mimeType: "text/csv", fileName: tripFileName)
+                    present(mail, animated: true)
+                }catch{}
+                
+                
+            }else{
+                print("Can't send the email")
+            }
+        }
+        func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+            controller.dismiss(animated: true, completion: nil)
+            if error != nil{
+                popAlert(message: "Failed sending your report")
+            }else{
+                popAlert(title: "Successful!", message: "The report sent")
+            }
+        }
+    
+    func popAlert(title: String = "Alert", message: String){
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        ac.addAction(action)
+        self.present(ac,animated: true, completion: nil)
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectedIndexPath == indexPath.row {
@@ -118,7 +169,7 @@ class MonthlySummariesTableViewController: UITableViewController {
         }else{
             selectedIndexPath = indexPath.row
         }
-        print("there are \(trips.count) retrived from core data")
+//        print("there are \(trips.count) retrived from core data")
 
         tableView.beginUpdates()
         tableView.reloadRows(at: [indexPath], with: .automatic)

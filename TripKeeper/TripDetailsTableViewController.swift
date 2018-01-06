@@ -14,6 +14,7 @@ class TripDetailsTableViewController: UITableViewController {
     var trips = [Trip]()
     var currentMonthTrips = [Trip]()
     var dateFormatter = DateFormatter()
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +38,7 @@ class TripDetailsTableViewController: UITableViewController {
         let request = Trip.createFetchRequest()
         let sort = NSSortDescriptor(key: "date", ascending: false)
         request.sortDescriptors = [sort]
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         do {
             trips = (try! appDelegate.persistentContainer.viewContext.fetch(request))
 //            print("Got \(trips.count) trips")
@@ -52,13 +52,13 @@ class TripDetailsTableViewController: UITableViewController {
         let color = (CGFloat(index) / CGFloat(itemCount)) * 0.6
         return UIColor(red: 0.80, green: color, blue: 0.0, alpha: 1.0)
     }
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if (indexPath.row % 2 == 1){
-            cell.backgroundColor = UIColor.lightGray
-        }else{
-            cell.backgroundColor = UIColor.white
-        }
-    }
+//    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        if (indexPath.row % 2 == 1){
+//            cell.backgroundColor = UIColor.lightGray
+//        }else{
+//            cell.backgroundColor = UIColor.white
+//        }
+//    }
     
 
     override func didReceiveMemoryWarning() {
@@ -87,10 +87,21 @@ class TripDetailsTableViewController: UITableViewController {
         cell.originLabel.text! = currentMonthTrips[indexPath.row].origin
         cell.destinationLabel.text! = currentMonthTrips[indexPath.row].destination
 
-        // Configure the cell...
-
         return cell
     }
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let entryToBeRemoved = currentMonthTrips[indexPath.row]
+        if editingStyle == .delete {
+            currentMonthTrips.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        appDelegate.persistentContainer.viewContext.delete(entryToBeRemoved)
+        appDelegate.saveContext()
+    }
+    
     
 
     /*
