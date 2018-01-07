@@ -27,8 +27,21 @@ class MonthlySummariesTableViewController: UITableViewController,MFMailComposeVi
         menuBtn.target = revealViewController()
         menuBtn.action = #selector(SWRevealViewController.revealToggle(_:))
         view.addGestureRecognizer(revealViewController().panGestureRecognizer())
+        getTrips()
         getSumOfMonthlyData()
     }
+        func getTrips(){
+            let request = Trip.createFetchRequest()
+            let sort = NSSortDescriptor(key: "date", ascending: false)
+            request.sortDescriptors = [sort]
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            do {
+                trips = (try! appDelegate.persistentContainer.viewContext.fetch(request))
+                //print("Got \(trips.count) trips")
+            } catch {
+                print("Fetch failed")
+            }
+        }
     func getSumOfMonthlyData(){
         dateFormatter.dateFormat = "MMMM yyyy"
         if trips.count > 0{
@@ -38,7 +51,7 @@ class MonthlySummariesTableViewController: UITableViewController,MFMailComposeVi
             var tripSum = 0
             var mileSum = 0.0
             for trip in trips{
-                print(trip.date)
+//                print(trip.date)
                 if dateFormatter.string(from: trip.date as Date) == currentMonth{
                     print(currentMonth)
                     tripSum += 1
@@ -100,6 +113,10 @@ class MonthlySummariesTableViewController: UITableViewController,MFMailComposeVi
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "monthlySummaryCell", for: indexPath) as! MonthlySummaryCell
+        
+//        cell.labelView.layer.cornerRadius = 10.0
+//        cell.backgroundColor = UIColor.gray
+        
         cell.month.text! = monthlyData[indexPath.row].month
         cell.totalMiles.text! = "\(monthlyData[indexPath.row].totalMiles)"
         cell.numberOfTrips.text! = "\(monthlyData[indexPath.row].totalTrips)"

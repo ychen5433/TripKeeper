@@ -10,6 +10,7 @@ import UIKit
 
 class TripDetailCell: UITableViewCell {
     
+    @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var mileageLabel: UILabel!
     @IBOutlet weak var originLabel: UILabel!

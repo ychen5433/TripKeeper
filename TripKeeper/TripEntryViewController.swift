@@ -269,6 +269,7 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
     @IBAction func pickDate(_ sender: UITextField) {
         let datePickerView = UIDatePicker()
         datePickerView.datePickerMode = UIDatePickerMode.date
+        datePickerView.maximumDate = Date()
         sender.inputView = datePickerView
         datePickerView.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
     }

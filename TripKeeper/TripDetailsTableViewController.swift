@@ -11,20 +11,20 @@ import UIKit
 class TripDetailsTableViewController: UITableViewController {
   
     @IBOutlet weak var menuBtn: UIBarButtonItem!
-    var trips = [Trip]()
+//    var trips = [Trip]()
     var currentMonthTrips = [Trip]()
     var dateFormatter = DateFormatter()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
     }
     
     @IBAction func backToMonthlySummeries(_ sender: UIBarButtonItem) {
-        getTrips()
+//        getTrips()
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "MonthlySummariesTableViewController") as! MonthlySummariesTableViewController
-        vc.trips = self.trips
+//        vc.trips = self.trips
         let transition = CATransition()
         transition.duration = 0.5
         transition.type = kCATransitionPush
@@ -34,24 +34,23 @@ class TripDetailsTableViewController: UITableViewController {
 
         navigationController?.pushViewController(vc, animated: true)
     }
-    func getTrips(){
-        let request = Trip.createFetchRequest()
-        let sort = NSSortDescriptor(key: "date", ascending: false)
-        request.sortDescriptors = [sort]
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        do {
-            trips = (try! appDelegate.persistentContainer.viewContext.fetch(request))
-//            print("Got \(trips.count) trips")
-        } catch {
-            print("Fetch failed")
-        }
-    }
-    func colorForIndex(index: Int) -> UIColor
-    {
-        let itemCount = trips.count - 1
-        let color = (CGFloat(index) / CGFloat(itemCount)) * 0.6
-        return UIColor(red: 0.80, green: color, blue: 0.0, alpha: 1.0)
-    }
+//    func getTrips(){
+//        let request = Trip.createFetchRequest()
+//        let sort = NSSortDescriptor(key: "date", ascending: false)
+//        request.sortDescriptors = [sort]
+//        do {
+//            trips = (try! appDelegate.persistentContainer.viewContext.fetch(request))
+////            print("Got \(trips.count) trips")
+//        } catch {
+//            print("Fetch failed")
+//        }
+//    }
+//    func colorForIndex(index: Int) -> UIColor
+//    {
+//        let itemCount = trips.count - 1
+//        let color = (CGFloat(index) / CGFloat(itemCount)) * 0.6
+//        return UIColor(red: 0.80, green: color, blue: 0.0, alpha: 1.0)
+//    }
 //    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 //        if (indexPath.row % 2 == 1){
 //            cell.backgroundColor = UIColor.lightGray
@@ -82,6 +81,10 @@ class TripDetailsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         dateFormatter.dateFormat = "MMM dd"
         let cell = tableView.dequeueReusableCell(withIdentifier: "TripDetailCell", for: indexPath) as! TripDetailCell
+        cell.bgView.layer.cornerRadius = 10.0
+        cell.backgroundColor = UIColor.lightGray
+//        cell.contentView.layer.backgroundColor = CGColor(
+//        cell.backgroundColor = UIColor.gray
         cell.dateLabel.text! = dateFormatter.string(from: currentMonthTrips[indexPath.row].date as Date)
         cell.mileageLabel.text! = "\(round(100 * currentMonthTrips[indexPath.row].mileage)/100)"
         cell.originLabel.text! = currentMonthTrips[indexPath.row].origin

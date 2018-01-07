@@ -11,13 +11,16 @@ import MessageUI
 
 class MenuTableViewController: UITableViewController, MFMailComposeViewControllerDelegate {
     
-    var sectionTitles = [String]()
-    var rowContents = [[String]]()
-    var trips = [Trip]()
+//    var sectionTitles = [String]()
+    var rowContents = [String]()
+//    var trips = [Trip]()
+//    var currentMonthTrips = [Trip]()
+//    var yTDTrips = [Trip]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        sectionTitles = ["Report","Setting"]
-        rowContents = [["Trip Entry","Monthly Summaries","YTD","Pick Your Dates"],["Update Your Email"]]
+        tableView.backgroundColor = UIColor.darkGray
+        tableView.separatorStyle = .none
+        rowContents = ["Trip Entry","Monthly Summaries","Current Month","YTD","Update Default Email"]
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,44 +30,50 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return rowContents.count
-    }
+//    override func numberOfSections(in tableView: UITableView) -> Int {
+//        // #warning Incomplete implementation, return the number of sections
+//        return rowContents.count
+//    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return rowContents[section].count
+        return rowContents.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "menuCell", for: indexPath) 
-        cell.textLabel?.text = rowContents[indexPath.section][indexPath.row]
+        cell.textLabel?.text = rowContents[indexPath.row]
+        cell.textLabel?.textColor = UIColor.white
+        cell.backgroundColor = UIColor.darkGray
 
         // Configure the cell...
 
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        getTrips()//get trips from coredata
+//        getTrips()//get trips from coredata
         let revealVC = revealViewController()
         
         let cellContent = tableView.cellForRow(at: indexPath)?.textLabel?.text!
-        
         switch cellContent {
         case "Monthly Summaries"?:
             let vc = storyboard?.instantiateViewController(withIdentifier: "MonthlySummariesTableViewController") as! MonthlySummariesTableViewController
-            vc.trips = self.trips
+//            vc.trips = self.trips
             let newFrontVC = UINavigationController.init(rootViewController: vc)
             revealVC?.pushFrontViewController(newFrontVC, animated: true)
         case "Trip Entry"?:
             let vc = storyboard?.instantiateViewController(withIdentifier: "TripEntryViewController") as! TripEntryViewController
             let newFrontVC = UINavigationController.init(rootViewController: vc)
             revealVC?.pushFrontViewController(newFrontVC, animated: true)
+        case "Current Month"?:
+            let vc = storyboard?.instantiateViewController(withIdentifier: "TripDetailsTableViewController") as! TripDetailsTableViewController
+            let newFrontVC = UINavigationController.init(rootViewController: vc)
+            revealVC?.pushFrontViewController(newFrontVC, animated: true)
         default:
             print("no rows selected")
         }
+       
     }
 //    func sendEmail(){
 //        if MFMailComposeViewController.canSendMail(){
@@ -80,21 +89,24 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
 //    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
 //        controller.dismiss(animated: true, completion: nil)
 //    }
-    func getTrips(){
-        let request = Trip.createFetchRequest()
-        let sort = NSSortDescriptor(key: "date", ascending: false)
-        request.sortDescriptors = [sort]
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        do {
-            trips = (try! appDelegate.persistentContainer.viewContext.fetch(request))
-            //print("Got \(trips.count) trips")
-        } catch {
-            print("Fetch failed")
-        }
-    }
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionTitles[section]
-    }
+//    func getTrips(){
+//        let request = Trip.createFetchRequest()
+//        let sort = NSSortDescriptor(key: "date", ascending: false)
+//        request.sortDescriptors = [sort]
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        do {
+//            trips = (try! appDelegate.persistentContainer.viewContext.fetch(request))
+//            for trip in trips{
+//
+//            }
+//            //print("Got \(trips.count) trips")
+//        } catch {
+//            print("Fetch failed")
+//        }
+//    }
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return sectionTitles[section]
+//    }
     
     
     /*

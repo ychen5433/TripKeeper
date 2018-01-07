@@ -17,6 +17,7 @@ class MonthlySummaryCell: UITableViewCell {
     @IBOutlet weak var sendReportBtn: UIButton!
     @IBOutlet weak var viewTripsDetailsBtn: UIButton!
     
+    @IBOutlet weak var labelView: UIView!
     @IBAction func reportBtnTapped(_ sender: UIButton) {
         if let onReportBtnTapped = self.onReportBtnTapped{
             onReportBtnTapped()
