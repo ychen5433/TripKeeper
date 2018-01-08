@@ -297,7 +297,7 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
                 if let data = try? Data(contentsOf: searchURL as URL){
                     let jsonGoogleData = JSON(data: data)
 //                    print(jsonGoogleData)
-                    DispatchQueue.main.async {[unowned self] in
+//                    DispatchQueue.main.async {[unowned self] in
                         for row in jsonGoogleData["rows"].arrayValue{
                             for element in row["elements"].arrayValue{
                                 if element["status"].stringValue == "OK"{
@@ -306,7 +306,9 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
                                     trip.date = self.selectedDate as NSDate
                                     trip.mileage = round(element["distance"]["value"].doubleValue/1609.3226 * 100)/100
                                 }else{
-                                    self.popAlert(message: "Please enter valide locations")
+                                    DispatchQueue.main.async {[unowned self] in
+                                        self.popAlert(message: "Please enter valide locations")
+                                    }
                                 }
                             }
                         }
@@ -316,7 +318,6 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
                         }catch{
                             print("Failed saving")
                         }
-                    }
                     
                 }
             }

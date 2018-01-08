@@ -15,6 +15,7 @@ class TripDetailsTableViewController: UITableViewController {
     var currentMonthTrips = [Trip]()
     var dateFormatter = DateFormatter()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var index: Int?//indicator of which cell should be expanded on the monthly summary table
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,7 @@ class TripDetailsTableViewController: UITableViewController {
 //        getTrips()
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "MonthlySummariesTableViewController") as! MonthlySummariesTableViewController
 //        vc.trips = self.trips
+        vc.selectedIndexPath = index
         let transition = CATransition()
         transition.duration = 0.5
         transition.type = kCATransitionPush

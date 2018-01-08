@@ -11,7 +11,7 @@ import MessageUI
 
 class MonthlySummariesTableViewController: UITableViewController,MFMailComposeViewControllerDelegate {
     @IBOutlet weak var menuBtn: UIBarButtonItem!
-    var selectedIndexPath = 0
+    var selectedIndexPath: Int?
     var defaultRow = 0
     var trips = [Trip]()
     
@@ -46,22 +46,22 @@ class MonthlySummariesTableViewController: UITableViewController,MFMailComposeVi
         dateFormatter.dateFormat = "MMMM yyyy"
         if trips.count > 0{
             var currentMonth = dateFormatter.string(from: trips[0].date as Date)
-            print(currentMonth)
+//            print(currentMonth)
            
             var tripSum = 0
             var mileSum = 0.0
             for trip in trips{
 //                print(trip.date)
                 if dateFormatter.string(from: trip.date as Date) == currentMonth{
-                    print(currentMonth)
+//                    print(currentMonth)
                     tripSum += 1
                     mileSum += trip.mileage
                 }else{
                     let newMonthData = (currentMonth, tripSum, mileSum)
-                    print(currentMonth)
+//                    print(currentMonth)
                     monthlyData.append(newMonthData)
                     currentMonth = dateFormatter.string(from: trip.date as Date)
-                    print(currentMonth)
+//                    print(currentMonth)
                     tripSum = 1
                     mileSum = trip.mileage
                 }
@@ -91,6 +91,7 @@ class MonthlySummariesTableViewController: UITableViewController,MFMailComposeVi
                 break
             }
         }
+        flipCount = 0
         return requestedMonthTrips
     }
     
@@ -114,21 +115,22 @@ class MonthlySummariesTableViewController: UITableViewController,MFMailComposeVi
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "monthlySummaryCell", for: indexPath) as! MonthlySummaryCell
         
-//        cell.labelView.layer.cornerRadius = 10.0
-//        cell.backgroundColor = UIColor.gray
-        
         cell.month.text! = monthlyData[indexPath.row].month
+        
         cell.totalMiles.text! = "\(monthlyData[indexPath.row].totalMiles)"
         cell.numberOfTrips.text! = "\(monthlyData[indexPath.row].totalTrips)"
-//        let currentMonthTrips = self.retrieveTrips(for: cell.month.text!)
+//        var currentMonthTrips = [Trip]()
         cell.onButtonTapped = {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "TripDetailsTableViewController") as! TripDetailsTableViewController
+//            currentMonthTrips = self.retrieveTrips(for: cell.month.text!)
             vc.currentMonthTrips = self.retrieveTrips(for: cell.month.text!)
+            vc.index = indexPath.row
             self.navigationController?.pushViewController(vc, animated: true)
         }
         cell.onReportBtnTapped = {
-            let trips = self.retrieveTrips(for: cell.month.text!)
-            self.sendCSVReport(indexForRequestedMonth: indexPath.row, currentMonthTrips:trips)
+            let tripsToBeReported = self.retrieveTrips(for: cell.month.text!)
+//            currentMonthTrips = self.retrieveTrips(for: cell.month.text!)
+            self.sendCSVReport(indexForRequestedMonth: indexPath.row, currentMonthTrips: tripsToBeReported)
         }
         return cell
     }
