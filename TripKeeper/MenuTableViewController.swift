@@ -80,9 +80,10 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
             revealVC?.pushFrontViewController(newFrontVC, animated: true)
         case "Current Month"?:
             dateFormatter.dateFormat = "MMMM YYYY"
-            getRequestedTrips(for: dateFormatter.string(from: Date()))
+            let currentMonthString =  dateFormatter.string(from: Date())
+            getRequestedTrips(for: currentMonthString)
             if monthlyTrips.count > 0 {
-                sendCSVReport(forTripsOfPeriod: monthlyTrips)
+                sendCSVReport(forTripsOfPeriod: monthlyTrips, periodString: currentMonthString)
                 monthlyTrips.removeAll()
             }else{
                 popAlert(message: "There's no trips logged in previous month")
@@ -90,18 +91,21 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
         case "Previous Month"?:
             let previousMonth = Calendar.current.date(byAdding: .month, value: -1, to: Date())
             dateFormatter.dateFormat = "MMMM YYYY"
-            getRequestedTrips(for: dateFormatter.string(from: previousMonth!))
+            let previousMonthString = dateFormatter.string(from: previousMonth!)
+            getRequestedTrips(for:  previousMonthString)
             if monthlyTrips.count > 0 {
-                sendCSVReport(forTripsOfPeriod: monthlyTrips)
+                sendCSVReport(forTripsOfPeriod: monthlyTrips, periodString: previousMonthString)
                 monthlyTrips.removeAll()
             }else{
                 popAlert(message: "There's no trips logged in previous month")
             }
         case "YTD"?:
             dateFormatter.dateFormat = "YYYY"
-            getRequestedTrips(for: dateFormatter.string(from: Date()))
+            let currentYearString = dateFormatter.string(from: Date())
+//            print("this is the year of \(currentYearString)")
+            getRequestedTrips(for: currentYearString)
             if yearlyTrips.count > 0 {
-                sendCSVReport(forTripsOfPeriod: yearlyTrips)
+                sendCSVReport(forTripsOfPeriod: yearlyTrips, periodString: currentYearString)
                 yearlyTrips.removeAll()
             }else{
                 popAlert(message: "There's no trips logged so far for the current year")
@@ -109,10 +113,10 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
             
         case "Previous Year"?:
             dateFormatter.dateFormat = "YYYY"
-            let previousYear = Calendar.current.date(byAdding: .month, value: -12, to: Date())
-            getRequestedTrips(for: dateFormatter.string(from: previousYear!))
+            let previousYearString = dateFormatter.string(from: Calendar.current.date(byAdding: .month, value: -12, to: Date())!)
+            getRequestedTrips(for: previousYearString)
             if yearlyTrips.count > 0 {
-                sendCSVReport(forTripsOfPeriod: yearlyTrips)
+                sendCSVReport(forTripsOfPeriod: yearlyTrips, periodString: previousYearString)
                 yearlyTrips.removeAll()
             }else{
                 popAlert(message: "There's no trips logged so far for the current year")
@@ -142,11 +146,14 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
     }
     
     func getRequestedTrips(for period: String){
-        if period.components(separatedBy: " ").count == 1{
-            dateFormatter.dateFormat = "yyyy"
+        let periodString = period.components(separatedBy: " ")
+        if periodString.count == 1{
+            dateFormatter.dateFormat = "YYYY"
+//            dateFormatter.timeZone = NSTimeZone.local
 //            let currentYearString =  dateFormatter.string(from: Date())
             for trip in trips.reversed(){
-                if dateFormatter.string(from: trip.date as Date) == period{
+                let tripYearString = dateFormatter.string(from: trip.date as Date)
+                if tripYearString == period{
                     yearlyTrips.append(trip)
                     flag = true
                     flipCount = 1
@@ -158,8 +165,7 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
                 }
             }
             flipCount = 0
-            flag = true
-        }else if period.components(separatedBy: " ").count == 2{
+        }else if periodString.count == 2{
             dateFormatter.dateFormat = "MMMM YYYY"
             for trip in trips.reversed(){
                 if dateFormatter.string(from: trip.date as Date) == period{
@@ -176,12 +182,10 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
 //                print(trip.date)
             }
             flipCount = 0
-            flag = true
-            
         }
     }
 
-    func sendCSVReport(forTripsOfPeriod: [Trip]){
+    func sendCSVReport(forTripsOfPeriod: [Trip], periodString: String){
         
         let requestTrips = forTripsOfPeriod
         
@@ -190,19 +194,37 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
             for trip in requestTrips{
                 totalMiles += trip.mileage
             }
-            let firstTrip = requestTrips.first!
-            dateFormatter.dateFormat = "MMMM_YYYY"
-            let monthYear = dateFormatter.string(from: firstTrip.date as Date)
-            let tripFileName = "\(monthYear).csv"
-            dateFormatter.dateFormat = "MMM dd"
-            let month = monthYear.components(separatedBy: "_")[0]
-            let year = monthYear.components(separatedBy: "_")[1]
+            let tripFileName = "\(periodString).csv"
             let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(tripFileName)
-            var csvText = "Year,Month,Trip Count,Total Mileage\n\(year),\(month),\(requestTrips.count),\(totalMiles)\n\n,,,\n Date,From,To,Miles\n"
+            let monthYear = periodString.components(separatedBy: " ")
+            var csvText = ""
+            dateFormatter.dateFormat = "MMM dd"
+            dateFormatter.timeZone = NSTimeZone.local
+            if monthYear.count == 2 {
+                let month = monthYear[0]
+                let year = monthYear[1]
+                
+                csvText = "Year,Month,Trip Count,Total Mileage\n\(year),\(month),\(requestTrips.count),\(totalMiles)\n\n,,,\n Date,From,To,Miles\n"
+            }else{
+                csvText = "Year,Trip Count, Total Mileage\n\(periodString),\(requestTrips.count),\(totalMiles)\n,,\nDate,From,To,Miles\n"
+            }
             for trip in requestTrips{
                 //                    print(trip.destination)
                 csvText.append("\"\(dateFormatter.string(from: trip.date as Date))\",\"\(trip.origin)\",\"\(trip.destination)\",\"\(trip.mileage)\"\n")
             }
+//            let firstTrip = requestTrips.first!
+//            dateFormatter.dateFormat = "MMMM_YYYY"
+//            let monthYear = dateFormatter.string(from: firstTrip.date as Date)
+            
+//            dateFormatter.dateFormat = "MMM dd"
+//            let month = monthYear.components(separatedBy: "_")[0]
+//            let year = monthYear.components(separatedBy: "_")[1]
+//            let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(tripFileName)
+//            var csvText = "Year,Month,Trip Count,Total Mileage\n\(year),\(month),\(requestTrips.count),\(totalMiles)\n\n,,,\n Date,From,To,Miles\n"
+//            for trip in requestTrips{
+//                //                    print(trip.destination)
+//                csvText.append("\"\(dateFormatter.string(from: trip.date as Date))\",\"\(trip.origin)\",\"\(trip.destination)\",\"\(trip.mileage)\"\n")
+//            }
             do{
                 try csvText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
                 

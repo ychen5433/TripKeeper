@@ -205,33 +205,33 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "DestinationCell") as! DestinationCell
         cell.textLabel?.font = UIFont(name: "Arial", size: 13)
         
-        if destinations.count > 0{
+        if destinations.count > 0 {
             cell.textLabel?.text = destinations[indexPath.row]
         }
         //        cell.textLabel?.text = "Hello"
         return cell
     }
     
-    @IBAction func fetchCoreData(_ sender: UIButton) {
-        
-        let request = Trip.createFetchRequest()
-        let sort = NSSortDescriptor(key: "date", ascending: true)
-        request.sortDescriptors = [sort]
-        
-        do {
-            trips = (try appDelegate?.persistentContainer.viewContext.fetch(request))!
-            print("Got \(trips.count) trips")
-            for trip in trips{
-                print(trip.origin)
-                print(trip.destination)
-                print(trip.mileage)
-                print("done one trip")
-            }
-            //            tableView.reloadData()
-        } catch {
-            print("Fetch failed")
-        }
-    }
+//    @IBAction func fetchCoreData(_ sender: UIButton) {
+//
+//        let request = Trip.createFetchRequest()
+//        let sort = NSSortDescriptor(key: "date", ascending: true)
+//        request.sortDescriptors = [sort]
+//
+//        do {
+//            trips = (try appDelegate?.persistentContainer.viewContext.fetch(request))!
+//            print("Got \(trips.count) trips")
+//            for trip in trips{
+//                print(trip.origin)
+//                print(trip.destination)
+//                print(trip.mileage)
+//                print("done one trip")
+//            }
+//            //            tableView.reloadData()
+//        } catch {
+//            print("Fetch failed")
+//        }
+//    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -249,6 +249,7 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
 //                self.destinations.append(self.destinationTextField.text!)
 //            }
             destinations.append(destinationTextField.text!)
+            destinations.append(self.originString)
             destinations.insert(self.originString, at:0)
             performSelector(inBackground: #selector(getMilesFromGoogleAPI), with: nil)
         }
@@ -329,27 +330,7 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
             self.destinations.removeAll()
         }
     }
-//    func placeSearch(_ textField: MVPlaceSearchTextField!, responseForSelectedPlace responseDict: GMSPlace!) {
-//        print("4")
-//        self.view.endEditing(true)
-//    }
-//    
-//    func placeSearchWillShowResult(_ textField: MVPlaceSearchTextField!) {
-//        print("5")
-//    }
-//    
-//    func placeSearchWillHideResult(_ textField: MVPlaceSearchTextField!) {
-//        print("in pplaceSearchWillHideResult func")
-//    }
-//    
-//    func placeSearch(_ textField: MVPlaceSearchTextField!, resultCell cell: UITableViewCell!, with placeObject: PlaceObject!, at index: Int) {
-//        print("in resultCell func")
-//        if(index % 2 == 0){
-//            cell.contentView.backgroundColor = UIColor.lightGray
-//        }else{
-//            cell.contentView.backgroundColor = UIColor.white
-//        }
-//    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
