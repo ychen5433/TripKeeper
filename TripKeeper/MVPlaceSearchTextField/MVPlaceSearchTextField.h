@@ -14,10 +14,11 @@
 #import "PlaceObject.h"
 #import <GoogleMaps/GoogleMaps.h>
 #import <GooglePlaces/GooglePlaces.h>
+#import <Speech/Speech.h>
 
 @protocol PlaceSearchTextFieldDelegate;
 
-@interface MVPlaceSearchTextField : MLPAutoCompleteTextField
+@interface MVPlaceSearchTextField : MLPAutoCompleteTextField 
 @property(nonatomic,strong)NSString *strApiKey;
 @property(nonatomic,strong)IBOutlet id<PlaceSearchTextFieldDelegate>placeSearchDelegate;
 @end

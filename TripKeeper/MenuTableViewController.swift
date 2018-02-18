@@ -34,7 +34,9 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
         
         getTrips()
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        clearsSelectionOnViewWillAppear = true
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -59,40 +61,47 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
         cell.backgroundColor = UIColor.darkGray
         return cell
     }
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.textLabel?.textColor = UIColor.white
+    }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        getTrips()//get trips from coredata
         let cell = tableView.cellForRow(at: indexPath)
         let revealVC = revealViewController()
         if (cell?.isSelected)!{
-            cell?.textLabel?.textColor = UIColor.cyan
+            cell?.textLabel?.textColor = UIColor(red: 70/255.0, green: 252/255.0, blue: 62/255.0, alpha: 1.0)
         }
         let cellContent = cell?.textLabel?.text!
         switch cellContent {
         case "Monthly Summaries"?:
             let vc = storyboard?.instantiateViewController(withIdentifier: "MonthlySummariesTableViewController") as! MonthlySummariesTableViewController
-//            vc.trips = self.trips
             vc.selectedIndexPath = 0
+//            let myIndexPath = IndexPath(item: 0, section: 0)
+//            tableView.cellForRow(at: myIndexPath)?.textLabel?.textColor = UIColor.white
             let newFrontVC = UINavigationController.init(rootViewController: vc)
             revealVC?.pushFrontViewController(newFrontVC, animated: true)
         case "Trip Entry"?:
+//            let myIndexPath = IndexPath(item: 1, section: 0)
+//            tableView.cellForRow(at: myIndexPath)?.textLabel?.textColor = UIColor.white
             let vc = storyboard?.instantiateViewController(withIdentifier: "TripEntryViewController") as! TripEntryViewController
             let newFrontVC = UINavigationController.init(rootViewController: vc)
             revealVC?.pushFrontViewController(newFrontVC, animated: true)
         case "Current Month"?:
-            dateFormatter.dateFormat = "MMMM YYYY"
+            dateFormatter.dateFormat = "MMMM yyyy"
             let currentMonthString =  dateFormatter.string(from: Date())
             getRequestedTrips(for: currentMonthString)
             if monthlyTrips.count > 0 {
                 sendCSVReport(forTripsOfPeriod: monthlyTrips, periodString: currentMonthString)
                 monthlyTrips.removeAll()
             }else{
-                popAlert(message: "There's no trips logged in previous month")
+                popAlert(message: "There's no trips logged this month")
             }
         case "Previous Month"?:
             let previousMonth = Calendar.current.date(byAdding: .month, value: -1, to: Date())
-            dateFormatter.dateFormat = "MMMM YYYY"
+            dateFormatter.dateFormat = "MMMM yyyy"
             let previousMonthString = dateFormatter.string(from: previousMonth!)
-            getRequestedTrips(for:  previousMonthString)
+            getRequestedTrips(for: previousMonthString)
             if monthlyTrips.count > 0 {
                 sendCSVReport(forTripsOfPeriod: monthlyTrips, periodString: previousMonthString)
                 monthlyTrips.removeAll()
@@ -100,7 +109,7 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
                 popAlert(message: "There's no trips logged in previous month")
             }
         case "YTD"?:
-            dateFormatter.dateFormat = "YYYY"
+            dateFormatter.dateFormat = "yyyy"
             let currentYearString = dateFormatter.string(from: Date())
 //            print("this is the year of \(currentYearString)")
             getRequestedTrips(for: currentYearString)
@@ -112,22 +121,20 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
             }
             
         case "Previous Year"?:
-            dateFormatter.dateFormat = "YYYY"
+            dateFormatter.dateFormat = "yyyy"
             let previousYearString = dateFormatter.string(from: Calendar.current.date(byAdding: .month, value: -12, to: Date())!)
             getRequestedTrips(for: previousYearString)
             if yearlyTrips.count > 0 {
                 sendCSVReport(forTripsOfPeriod: yearlyTrips, periodString: previousYearString)
                 yearlyTrips.removeAll()
             }else{
-                popAlert(message: "There's no trips logged so far for the current year")
+                popAlert(message: "There's no trips logged last year")
             }
         default:
             print("no rows selected")
         }
     }
-    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        tableView.cellForRow(at: indexPath)?.textLabel?.textColor = UIColor.white
-    }
+
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sectionTitles[section]
     }
@@ -146,43 +153,70 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
     }
     
     func getRequestedTrips(for period: String){
+        print("\(period) is the year")
+       
         let periodString = period.components(separatedBy: " ")
         if periodString.count == 1{
-            dateFormatter.dateFormat = "YYYY"
-//            dateFormatter.timeZone = NSTimeZone.local
-//            let currentYearString =  dateFormatter.string(from: Date())
-            for trip in trips.reversed(){
-                let tripYearString = dateFormatter.string(from: trip.date as Date)
-                if tripYearString == period{
-                    yearlyTrips.append(trip)
-                    flag = true
-                    flipCount = 1
-                }else{
-                    flag = false
-                }
-                if flipCount == 1 && !flag{
-                    break
-                }
-            }
-            flipCount = 0
+            dateFormatter.dateFormat = "yyyy"
         }else if periodString.count == 2{
-            dateFormatter.dateFormat = "MMMM YYYY"
-            for trip in trips.reversed(){
-                if dateFormatter.string(from: trip.date as Date) == period{
-                    monthlyTrips.append(trip)
-//                    print(trip.date)
-                    flag = true
-                    flipCount = 1
-                }else{
-                    flag = false
-                }
-                if flipCount == 1 && !flag{
-                    break
-                }
-//                print(trip.date)
-            }
-            flipCount = 0
+            dateFormatter.dateFormat = "MMMM yyyy"
         }
+        for trip in trips{
+            if dateFormatter.string(from: trip.date as Date) == period{
+                if periodString.count == 1{
+                    yearlyTrips.append(trip)
+                }else{
+                    monthlyTrips.append(trip)
+                }
+                flag = true
+                flipCount = 1
+            }else{
+                flag = false
+            }
+            if flipCount == 1 && !flag{
+                break
+            }
+        }
+        flipCount = 0
+        
+        
+//        if periodString.count == 1{
+//            dateFormatter.dateFormat = "YYYY"
+//
+//            for trip in trips{
+//                print(trip.date)
+//                print(trip.destination)
+//                let tripYearString = dateFormatter.string(from: trip.date as Date)
+//                print("tripYearString is \(tripYearString)")
+//                if tripYearString == period{
+//                    print(tripYearString)
+//                    yearlyTrips.append(trip)
+//                    flag = true
+//                    flipCount = 1
+//                }else{
+//                    flag = false
+//                }
+//                if flipCount == 1 && !flag{
+//                    break
+//                }
+//            }
+//            flipCount = 0
+//        }else if periodString.count == 2{
+//            dateFormatter.dateFormat = "MMMM YYYY"
+//            for trip in trips{
+//                if dateFormatter.string(from: trip.date as Date) == period{
+//                    monthlyTrips.append(trip)
+//                    flag = true
+//                    flipCount = 1
+//                }else{
+//                    flag = false
+//                }
+//                if flipCount == 1 && !flag{
+//                    break
+//                }
+//            }
+//            flipCount = 0
+//        }
     }
 
     func sendCSVReport(forTripsOfPeriod: [Trip], periodString: String){
@@ -259,50 +293,5 @@ class MenuTableViewController: UITableViewController, MFMailComposeViewControlle
         self.present(ac,animated: true, completion: nil)
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

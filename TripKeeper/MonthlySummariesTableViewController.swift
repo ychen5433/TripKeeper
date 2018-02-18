@@ -46,21 +46,24 @@ class MonthlySummariesTableViewController: UITableViewController,MFMailComposeVi
         dateFormatter.dateFormat = "MMMM yyyy"
         if trips.count > 0{
             var currentMonth = dateFormatter.string(from: trips[0].date as Date)
-            var tripSum = 0
-            var mileSum = 0.0
+            var currentMonthTripCount = 0
+            var currentMonthMileage = 0.0
+            
+//            var currentYear = dateFormatter.string(from: trips)
+            
             for trip in trips{
                 if dateFormatter.string(from: trip.date as Date) == currentMonth{
-                    tripSum += 1
-                    mileSum += trip.mileage
+                    currentMonthTripCount += 1
+                    currentMonthMileage += trip.mileage
                 }else{
-                    let newMonthData = (currentMonth, tripSum, mileSum)
+                    let newMonthData = (currentMonth, currentMonthTripCount, currentMonthMileage)
                     monthlyData.append(newMonthData)
                     currentMonth = dateFormatter.string(from: trip.date as Date)
-                    tripSum = 1
-                    mileSum = trip.mileage
+                    currentMonthTripCount = 1
+                    currentMonthMileage = trip.mileage
                 }
                 if trip == trips.last{
-                    let newMonthData = (currentMonth, tripSum, mileSum)
+                    let newMonthData = (currentMonth, currentMonthTripCount, currentMonthMileage)
                     monthlyData.append(newMonthData)
                 }
             }

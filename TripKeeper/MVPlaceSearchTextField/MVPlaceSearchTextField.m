@@ -31,11 +31,6 @@
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-*/
-
 
 
 -(void)awakeFromNib{
@@ -49,52 +44,9 @@
     self.maximumNumberOfAutoCompleteRows= 5;
     self.autoCompleteShouldHideClosingKeyboard = YES;
     _placesClient = [GMSPlacesClient sharedClient];
-    
 }
-#pragma mark - Datasource Autocomplete
-//example of asynchronous fetch:
-//- (void)autoCompleteTextField:(MLPAutoCompleteTextField *)textField
-// possibleCompletionsForString:(NSString *)string
-//            completionHandler:(void (^)(NSArray *))handler
-//{
-//    __block NSString *aQuery;
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        aQuery = textField.text;
-//    });
-//    [NSObject cancelPreviousPerformRequestsWithTarget:_placesClient selector:@selector(autocompleteQuery:bounds:filter:callback:) object:self];
-//
-//    if(aQuery.length>0){
-//        GMSAutocompleteFilter *filter = [[GMSAutocompleteFilter alloc] init];
-//        filter.type = kGMSPlacesAutocompleteTypeFilterNoFilter;
-//
-//        [_placesClient autocompleteQuery:aQuery
-//                                  bounds:nil
-//                                  filter:filter
-//                                callback:^(NSArray *results, NSError *error) {
-//                                    if (error != nil) {
-//                                        NSLog(@"Autocomplete error %@", [error localizedDescription]);
-//                                        handler(nil);
-//                                        return;
-//                                    }
-//                                    if(results.count>0){
-//                                        NSMutableArray *arrfinal=[NSMutableArray array];
-//                                        for (GMSAutocompletePrediction* result in results) {
-//                                            NSDictionary *aTempDict =  [NSDictionary dictionaryWithObjectsAndKeys:result.attributedFullText.string,@"description",result.placeID,@"reference", nil];
-//                                            PlaceObject *placeObj=[[PlaceObject alloc]initWithPlaceName:[aTempDict objectForKey:@"description"]];
-//                                            placeObj.userInfo=aTempDict;
-//                                            [arrfinal addObject:placeObj];
-//
-//                                        }
-//                                        handler(arrfinal);
-//                                    }else{
-//                                        handler(nil);
-//                                    }
-//                                }];
-//    }else{
-//        handler(nil);
-//    }
-//}
 
+#pragma mark - Datasource Autocomplete
 
 - (void)autoCompleteTextField:(MLPAutoCompleteTextField *)textField
  possibleCompletionsForString:(NSString *)string
@@ -160,8 +112,6 @@
     }else{
         cell.contentView.backgroundColor=[UIColor whiteColor];
     }
-//    NSLog(@":)))))))))))):)))))))))))");
-//    NSLog(@"%@",cell.textLabel.text);
     return YES;
 }
 

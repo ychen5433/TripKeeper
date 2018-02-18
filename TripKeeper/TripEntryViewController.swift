@@ -8,81 +8,8 @@
 
 import UIKit
 import CoreData
-
-//@IBDesignable
-//class DesignableView: UIView {
-//}
-//
-//@IBDesignable
-//class DesignableButton: UIButton {
-//}
-//
-//@IBDesignable
-//class DesignableTextField: UITextField {
-//}
-//@IBDesignable
-//class DesignableTextView: UITextView {
-//}
-//@IBDesignable
-//class DesignableTableView: UITableView {
-//}
-//extension UIView {
-//    @IBInspectable
-//    var cornerRadius: CGFloat {
-//        get {
-//            return layer.cornerRadius
-//        }
-//        set {
-//            layer.cornerRadius = newValue
-//        }
-//    }
-//    @IBInspectable
-//    var shadowRadius: CGFloat {
-//        get {
-//            return layer.shadowRadius
-//        }
-//        set {
-//            layer.shadowRadius = newValue
-//        }
-//    }
-//
-//    @IBInspectable
-//    var shadowOpacity: Float {
-//        get {
-//            return layer.shadowOpacity
-//        }
-//        set {
-//            layer.shadowOpacity = newValue
-//        }
-//    }
-//
-//    @IBInspectable
-//    var shadowOffset: CGSize {
-//        get {
-//            return layer.shadowOffset
-//        }
-//        set {
-//            layer.shadowOffset = newValue
-//        }
-//    }
-//    @IBInspectable
-//    var shadowColor: UIColor? {
-//        get {
-//            if let color = layer.shadowColor {
-//                return UIColor(cgColor: color)
-//            }
-//            return nil
-//        }
-//        set {
-//            if let color = newValue {
-//                layer.shadowColor = color.cgColor
-//            } else {
-//                layer.shadowColor = nil
-//            }
-//        }
-//    }
-//}
-
+import Speech
+import SystemConfiguration
 
 class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate,UITableViewDataSource, UITextViewDelegate {
     let shadowOp: Float = 0.7
@@ -96,6 +23,13 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
     @IBOutlet weak var menuBtn: UIBarButtonItem!
     @IBOutlet weak var originTextField: MVPlaceSearchTextField!
     @IBOutlet weak var destinationTextField: MVPlaceSearchTextField!
+    
+    let audioEngine = AVAudioEngine()
+    let speechRecognizer = SFSpeechRecognizer()
+    let request = SFSpeechAudioBufferRecognitionRequest()
+    var recognitionTask: SFSpeechRecognitionTask?
+    var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    
     var originString = ""
     var destinations = [String]()
     var trips = [Trip]()
@@ -111,16 +45,30 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
     
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     let dateFormatter = DateFormatter()
-    
-    
-//    var managedObjectContext: NSManagedObjectContext? = nil
+
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        checkInternetAvailability()
+        
         menuBtn.target = revealViewController()
         menuBtn.action = #selector(SWRevealViewController.revealToggle(_:))
         view.addGestureRecognizer(revealViewController().panGestureRecognizer())
+        
+        uiMakeOver()
+        pickDate(dateTextField)
+    }
+    fileprivate func checkInternetAvailability() {
+        if Reachability.isConnectedToNetwork(){
+            print("Yahoooo!! Connected to Internet")
+        }else{
+            popAlert(message: "Inernet is NOT available!!")
+        }
+    }
+    
+    fileprivate func uiMakeOver() {
         dateLabel.layer.shadowOffset = shadowOffset
         dateLabel.layer.shadowOpacity = shadowOp
         fromLabel.layer.shadowOffset = shadowOffset
@@ -160,12 +108,10 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
         
         destinationsTable.tableFooterView = UIView(frame: .zero)
         
-        
         dateFormatter.dateStyle = DateFormatter.Style.medium
         dateTextField.text = dateFormatter.string(from: Date())
-        pickDate(dateTextField)
-        
     }
+    
     @IBAction func clearTextViewContent(_ sender: UIButton) {
         noteTextView.text = ""
     }
@@ -208,30 +154,8 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
         if destinations.count > 0 {
             cell.textLabel?.text = destinations[indexPath.row]
         }
-        //        cell.textLabel?.text = "Hello"
         return cell
     }
-    
-//    @IBAction func fetchCoreData(_ sender: UIButton) {
-//
-//        let request = Trip.createFetchRequest()
-//        let sort = NSSortDescriptor(key: "date", ascending: true)
-//        request.sortDescriptors = [sort]
-//
-//        do {
-//            trips = (try appDelegate?.persistentContainer.viewContext.fetch(request))!
-//            print("Got \(trips.count) trips")
-//            for trip in trips{
-//                print(trip.origin)
-//                print(trip.destination)
-//                print(trip.mileage)
-//                print("done one trip")
-//            }
-//            //            tableView.reloadData()
-//        } catch {
-//            print("Fetch failed")
-//        }
-//    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -239,6 +163,7 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
     }
     
     @IBAction func addTrips(_ sender: UIButton) {
+//        checkInternetAvailability()
         destinationsTable.isHidden = true
         noteTextView.resignFirstResponder()
         if (destinationTextField.text! == "" && destinations.isEmpty) || originTextField.text! == ""{
@@ -269,7 +194,8 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
     
     @IBAction func pickDate(_ sender: UITextField) {
         let datePickerView = UIDatePicker()
-        datePickerView.datePickerMode = UIDatePickerMode.date
+//        datePickerView.datePickerMode = UIDatePickerMode.date
+        datePickerView.datePickerMode = UIDatePickerMode.dateAndTime
         datePickerView.maximumDate = Date()
         sender.inputView = datePickerView
         datePickerView.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
@@ -288,40 +214,41 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
     }
     
     @objc func getMilesFromGoogleAPI(){
-        for i in 0 ..< (destinations.count - 1) {
-            let url: NSString = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=\(destinations[i])&destinations=\(destinations[i+1])&key=\(googleDistanceMatrixAPI)" as NSString
-            let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
-            let managedContext = appDelegate?.persistentContainer.viewContext
-            let trip = Trip(context: managedContext!)
-            
-            if let searchURL = NSURL(string: urlStr as String){
-                if let data = try? Data(contentsOf: searchURL as URL){
-                    let jsonGoogleData = JSON(data: data)
-//                    print(jsonGoogleData)
-//                    DispatchQueue.main.async {[unowned self] in
-                        for row in jsonGoogleData["rows"].arrayValue{
-                            for element in row["elements"].arrayValue{
-                                if element["status"].stringValue == "OK"{
-                                    trip.origin = self.destinations[i]
-                                    trip.destination = self.destinations[i+1]
-                                    trip.date = self.selectedDate as NSDate
-                                    trip.mileage = round(element["distance"]["value"].doubleValue/1609.3226 * 100)/100
-                                }else{
-                                    DispatchQueue.main.async {[unowned self] in
-                                        self.popAlert(message: "Please enter valide locations")
+        if Reachability.isConnectedToNetwork(){
+            for i in 0 ..< (destinations.count - 1) {
+                let url: NSString = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=\(destinations[i])&destinations=\(destinations[i+1])&key=\(googleDistanceMatrixAPI)" as NSString
+                let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
+                let managedContext = appDelegate?.persistentContainer.viewContext
+                let trip = Trip(context: managedContext!)
+                
+                if let searchURL = NSURL(string: urlStr as String){
+                    if let data = try? Data(contentsOf: searchURL as URL){
+                        let jsonGoogleData = JSON(data: data)
+                            for row in jsonGoogleData["rows"].arrayValue{
+                                for element in row["elements"].arrayValue{
+                                    if element["status"].stringValue == "OK"{
+                                        trip.origin = self.destinations[i]
+                                        trip.destination = self.destinations[i+1]
+                                        trip.date = self.selectedDate as NSDate
+                                        trip.mileage = round(element["distance"]["value"].doubleValue/1609.3226 * 100)/100
+                                    }else{
+                                        DispatchQueue.main.async {[unowned self] in
+                                            self.popAlert(message: "Please enter valide locations")
+                                        }
                                     }
                                 }
                             }
-                        }
-                        do{
-                            try managedContext?.save()
-                            print("\(i) trip saved")
-                        }catch{
-                            print("Failed saving")
-                        }
-                    
+                            do{
+                                try managedContext?.save()
+                                print("\(i) trip saved")
+                            }catch{
+                                print("Failed saving")
+                            }
+                    }
                 }
             }
+        }else{
+            popAlert(message: "Inernet is NOT available!! Please try again later.")
         }
         DispatchQueue.main.async {[unowned self] in
             self.popAlert(message: "Done saving your trip(s)")
@@ -330,7 +257,6 @@ class TripEntryViewController: UIViewController, UITextFieldDelegate, UITableVie
             self.destinations.removeAll()
         }
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

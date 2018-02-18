@@ -85,6 +85,7 @@ class TripDetailsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TripDetailCell", for: indexPath) as! TripDetailCell
         cell.bgView.layer.cornerRadius = 10.0
         cell.backgroundColor = UIColor.lightGray
+        cell.selectionStyle = .none
 //        cell.contentView.layer.backgroundColor = CGColor(
 //        cell.backgroundColor = UIColor.gray
         cell.dateLabel.text! = dateFormatter.string(from: currentMonthTrips[indexPath.row].date as Date)
